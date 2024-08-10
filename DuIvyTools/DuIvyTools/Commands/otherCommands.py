@@ -571,16 +571,16 @@ class dssp(Command):
 
         infos = """
         One-symbol secondary structure designations that are used in the output file:
-        H — alpha-helix;
-        B — residue in isolated beta-bridge;
-        E — extended strand that participates in beta-ladder;
-        G — 3_10_-helix;
-        I — pi-helix;
-        P — kappa-helix (poly-proline II helix);
-        S — bend;
-        T — hydrogen-bonded turn;
-        = — break;
-        ~ — loop (no special secondary structure designation).
+        H - alpha-helix;
+        B - residue in isolated beta-bridge;
+        E - extended strand that participates in beta-ladder;
+        G - 3_10_-helix;
+        I - pi-helix;
+        P - kappa-helix (poly-proline II helix);
+        S - bend;
+        T - hydrogen-bonded turn;
+        = - break;
+        ~ - loop (no special secondary structure designation).
         """
         self.info(infos)
 
