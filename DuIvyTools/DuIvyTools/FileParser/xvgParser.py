@@ -142,6 +142,7 @@ class XVG(log):
             self.warn(
                 f"string column may detected, data_heads {len(self.data_heads)} < column_num {self.column_num}"
             )
+            ## TODO deal with distance results xvg, try to convert to number
 
     def save(self, outxvg: str, check: bool = True) -> None:
         """dump XVG class to xvg file

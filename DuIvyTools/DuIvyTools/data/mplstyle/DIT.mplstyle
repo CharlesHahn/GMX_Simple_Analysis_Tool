@@ -1,21 +1,21 @@
 ## Matplotlib style for DuIvyTools
 ## https://matplotlib.org/stable/tutorials/introductory/customizing.html#the-matplotlibrc-file
 
-axes.labelsize:     12
+axes.labelsize:     16
 axes.linewidth:     1
-xtick.labelsize:    12
-ytick.labelsize:    12
+xtick.labelsize:    16
+ytick.labelsize:    16
 ytick.left:         True
 ytick.direction:    in
 xtick.bottom:       True
 xtick.direction:    in
 lines.linewidth:    2
-legend.fontsize:    12
+legend.fontsize:    14
 legend.loc:         best
 legend.fancybox:    False
 legend.frameon:     False
 font.family:        Arial
-font.size:          12
+font.size:          16
 image.cmap:         coolwarm
 image.aspect:       auto # for fitting into axes
 figure.dpi:         100
