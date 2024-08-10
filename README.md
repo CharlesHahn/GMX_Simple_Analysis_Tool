@@ -113,6 +113,11 @@ If you used DuIvyTools in your research, cite it by doi please.
 - [ ] set the row of legends
 - [ ] add data reader from dat or csv file 
 
+## v0.5.5 new
+
+1. cleaned the none acsii characters in dssp cmd
+2. fixed the bug of calculating the confidence interval
+3. 
 
 ## Others
 

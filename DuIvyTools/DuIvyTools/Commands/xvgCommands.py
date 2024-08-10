@@ -55,6 +55,10 @@ class xvg_show(Command):
                 specify the shrink fold number of X values
         -ys, --yshrink (optional)
                 specify the shrink fold number of Y values
+        -xp, --xplus (optional)
+                specify the addtion number of X values
+        -yp, --yplus (optional)
+                specify the addtion number of Y values
         -xmin, --xmin (optional)
                 specify the xmin value of figure canvas
         -xmax, --xmax (optional)
@@ -94,12 +98,12 @@ class xvg_show(Command):
             for c in range(len(xvg.data_heads[1:])):  # to avoid str list
                 data_list.append(
                     [
-                        y * self.parm.yshrink
+                        y * self.parm.yshrink + self.parm.yplus
                         for y in xvg.data_columns[c + 1][begin:end:dt]
                     ]
                 )
                 xdata.append(
-                    [x * self.parm.xshrink for x in xvg.data_columns[0][begin:end:dt]]
+                    [x * self.parm.xshrink + self.parm.xplus for x in xvg.data_columns[0][begin:end:dt]]
                 )
             self.remove_latex()
 
@@ -178,6 +182,10 @@ class xvg_compare(Command):
                 specify the shrink fold number of X values
         -ys, --yshrink (optional)
                 specify the shrink fold number of Y values
+        -xp, --xplus (optional)
+                specify the addtion number of X values
+        -yp, --yplus (optional)
+                specify the addtion number of Y values
         -xmin, --xmin (optional)
                 specify the xmin value of figure canvas
         -xmax, --xmax (optional)

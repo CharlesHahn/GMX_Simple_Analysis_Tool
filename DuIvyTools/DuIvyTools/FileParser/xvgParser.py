@@ -224,8 +224,10 @@ class XVG(log):
         for i in range(windowsize, self.row_num):
             window_data = np.array(column_data[i - windowsize : i])
             ave = np.mean(window_data)
-            std = np.std(window_data)
-            interval = stats.norm.interval(confidence, ave, std)
+            ## NOTE CI calculation should be STE, not STD; Fuck, wrong for years! fixed at 20240809
+            std = np.std(window_data, ddof=1)
+            ste = std / np.sqrt(windowsize)
+            interval = stats.norm.interval(confidence, ave, ste)
             mvaves.append(ave)
             lows.append(interval[0])
             highs.append(interval[1])

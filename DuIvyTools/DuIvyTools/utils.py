@@ -159,6 +159,27 @@ class Parameters(log):
             help="modify Z values by multipling zshrink, default to 1.0",
         )
         parser.add_argument(
+            "-xp",
+            "--xplus",
+            type=float,
+            default=0.0,
+            help="modify X values by plusing xplus, default to 0.0",
+        )
+        parser.add_argument(
+            "-yp",
+            "--yplus",
+            type=float,
+            default=0.0,
+            help="modify Y values by plusing yplus, default to 0.0",
+        )
+        parser.add_argument(
+            "-zp",
+            "--zplus",
+            type=float,
+            default=0.0,
+            help="modify Z values by plusing zplus, default to 0.0",
+        )
+        parser.add_argument(
             "-smv",
             "--showMV",
             action="store_true",
