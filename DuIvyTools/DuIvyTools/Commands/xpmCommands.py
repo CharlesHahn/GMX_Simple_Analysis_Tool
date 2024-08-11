@@ -93,6 +93,8 @@ class xpm_show(Command):
                 specify the precision of Z ticklabels
         --legend_location (optional)
                 specify the location of legend, inside or outside
+        --legend_ncol (optional)
+                specify the number of columns of legends
         --colorbar_location (optional)
                 specify the location of colorbar, available for matplotlib: left, top, bottom, right
 
@@ -260,6 +262,7 @@ class xpm_show(Command):
                 "z_precision": self.parm.z_precision,
                 "alpha": self.parm.alpha,
                 "legend_location": self.sel_parm(self.parm.legend_location, "outside"),
+                "legend_ncol": self.get_parm("legend_ncol"),
                 "colorbar_location": self.parm.colorbar_location,
                 "fig_type": xpm.type,
                 "cmap": self.parm.colormap,

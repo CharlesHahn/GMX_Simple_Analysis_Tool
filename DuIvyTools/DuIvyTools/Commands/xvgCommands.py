@@ -69,6 +69,8 @@ class xvg_show(Command):
                 specify the ymax value of figure canvas
         --legend_location (optional)
                 specify the location of legends, inside or outside
+        --legend_ncol (optional)
+                specify the number of columns of legends
         --x_precision (optional)
                 specify the precision of X ticklabels
         --y_precision (optional)
@@ -124,6 +126,7 @@ class xvg_show(Command):
                 "lows": list(),
                 "alpha": self.sel_parm(self.parm.alpha, 0.4),
                 "legend_location": self.sel_parm(self.parm.legend_location, "inside"),
+                "legend_ncol": self.get_parm("legend_ncol"),
             }
             if self.parm.engine == "matplotlib":
                 line = LineMatplotlib(**kwargs)
@@ -198,6 +201,8 @@ class xvg_compare(Command):
                 set the opacity of confidence intervals, default to 0.4
         --legend_location (optional)
                 specify the location of legends, inside or outside
+        --legend_ncol (optional)
+                specify the number of columns of legends
         --x_precision (optional)
                 specify the precision of X ticklabels
         --y_precision (optional)
@@ -290,6 +295,7 @@ class xvg_compare(Command):
             "lows": lows_list,
             "alpha": self.sel_parm(self.parm.alpha, 0.4),
             "legend_location": self.sel_parm(self.parm.legend_location, "inside"),
+            "legend_ncol": self.get_parm("legend_ncol"),
         }
         if self.parm.engine == "matplotlib":
             line = LineMatplotlib(**kwargs)
@@ -703,6 +709,8 @@ class xvg_show_distribution(xvg_compare):
                 specify the precision of Y ticklabels
         --legend_location (optional)
                 specify the location of legends, inside or outside
+        --legend_ncol (optional)
+                specify the number of columns of legends
         -al, --additional_list (optional)
                 specify the bin number of calculating distribution, default to 100. You should set a int number, like `-al 200`
         -m, --mode (optional)
@@ -780,6 +788,7 @@ class xvg_show_distribution(xvg_compare):
             "lows": lows_list,
             "alpha": self.sel_parm(self.parm.alpha, 0.4),
             "legend_location": self.sel_parm(self.parm.legend_location, "inside"),
+            "legend_ncol": self.get_parm("legend_ncol"),
         }
         if self.parm.engine == "matplotlib":
             line = LineMatplotlib(**kwargs)
@@ -941,6 +950,8 @@ class xvg_show_scatter(Command):
                 specify the location of colorbar: bottom, top, left, right
         --legend_location (optional)
                 specify the location of legends, inside or outside
+        --legend_ncol (optional)
+                specify the number of columns of legends
 
     :Usage:
         dit xvg_show_scatter -f Gyrate.xvg -c 1,2
@@ -1039,6 +1050,7 @@ class xvg_show_scatter(Command):
             "z_precision": self.parm.z_precision,
             "colorbar_location": self.parm.colorbar_location,
             "legend_location": self.sel_parm(self.parm.legend_location, "inside"),
+            "legend_ncol": self.get_parm("legend_ncol"),
         }
         if self.parm.engine == "matplotlib":
             line = ScatterMatplotlib(**kwargs)
@@ -1109,6 +1121,8 @@ class xvg_show_stack(Command):
                 set the opacity of confidence intervals, default to 1.0
         --legend_location (optional)
                 specify the location of legends, inside or outside
+        --legend_ncol (optional)
+                specify the number of columns of legends
 
     :Usage:
         dit xvg_show_stack -f dssp_sc.xvg -c 2-7
@@ -1203,6 +1217,7 @@ class xvg_show_stack(Command):
                 "lows": lows_list,
                 "alpha": self.sel_parm(self.parm.alpha, 1.0),
                 "legend_location": self.sel_parm(self.parm.legend_location, "outside"),
+                "legend_ncol": self.get_parm("legend_ncol"),
             }
             if self.parm.engine == "matplotlib":
                 line = StackMatplotlib(**kwargs)
@@ -1416,6 +1431,8 @@ class xvg_ave_bar(Command):
                 specify the precision of Y ticklabels
         --legend_location (optional)
                 specify the location of legends, inside or outside
+        --legend_ncol (optional)
+                specify the number of columns of legends
 
     :Usage:
         dit xvg_ave_bar -f 0_0.xvg,0_1.xvg,0_2.xvg 1_0.xvg,1_1.xvg,1_2.xvg -c 1,2 -l MD_0 MD_1 -al data_1 data_2 -csv ave_bar.csv
@@ -1542,6 +1559,7 @@ class xvg_ave_bar(Command):
             "x_precision": self.parm.x_precision,
             "y_precision": self.parm.y_precision,
             "legend_location": self.sel_parm(self.parm.legend_location, "inside"),
+            "legend_ncol": self.get_parm("legend_ncol"),
         }
         if self.parm.engine == "matplotlib":
             line = BarMatplotlib(**kwargs)

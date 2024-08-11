@@ -109,15 +109,17 @@ If you used DuIvyTools in your research, cite it by doi please.
 - [ ] add a command to do AND/OR set operation to hbond or sltbr existance map
 - [ ] add inter-classes to ease the use of plotting xpm or xvg data 
 - [x] add -xp to plus or minus X or Y data, and in xpm_show cut to adjust xtick values
+- [x] set the row of legends
 - [ ] set the number of ticks
-- [ ] set the row of legends
+- [ ] add original xvg data to smv plot
 
 ## v0.5.5 new
 
 1. cleaned the none acsii characters in dssp cmd
 2. fixed the bug of calculating the confidence interval
 3. add -xp to plus or minus data
-4. 
+4. add --legend_ncol to set the number of columns of legends
+
 
 ## Others
 

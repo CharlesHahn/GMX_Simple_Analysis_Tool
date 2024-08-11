@@ -229,6 +229,12 @@ class Parameters(log):
             help="the location of legend box, ['inside', 'outside'], available for 'matplotlib' and 'gnuplot'",
         )
         parser.add_argument(
+            "--legend_ncol",
+            type=int,
+            default=1,
+            help="the number of columns of legend, default to 1, available for 'matplotlib'",
+        )
+        parser.add_argument(
             "-m",
             "--mode",
             type=str,

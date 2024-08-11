@@ -135,6 +135,7 @@ class LineMatplotlib(ParentMatplotlib):
         lows :List[List[float]]
         alpha :float
         legend_location:str #{inside, outside}
+        legend_ncol:int 
     """
 
     def __init__(self, **kwargs) -> None:
@@ -156,9 +157,9 @@ class LineMatplotlib(ParentMatplotlib):
             plt.ylim(kwargs["ymin"], kwargs["ymax"])
 
         if kwargs["legend_location"] == "outside":
-            plt.legend(bbox_to_anchor=(1.02, 1.00), loc="upper left")
+            plt.legend(bbox_to_anchor=(1.02, 1.00), loc="upper left", ncol=kwargs["legend_ncol"])
         else:
-            plt.legend()
+            plt.legend(ncol=kwargs["legend_ncol"])
 
         self.set_xyprecision_xyt_label(**kwargs)
 
@@ -191,6 +192,7 @@ class ScatterMatplotlib(ParentMatplotlib):
         cmap :str
         colorbar_location:str
         legend_location:str #{inside, outside}
+        legend_ncol:int 
     """
 
     def __init__(self, **kwargs) -> None:
@@ -245,9 +247,9 @@ class ScatterMatplotlib(ParentMatplotlib):
             plt.ylim(kwargs["ymin"], kwargs["ymax"])
 
         if kwargs["legend_location"] == "outside":
-            plt.legend(bbox_to_anchor=(1.02, 1.00), loc="upper left")
+            plt.legend(bbox_to_anchor=(1.02, 1.00), loc="upper left", ncol=kwargs["legend_ncol"])
         else:
-            plt.legend()
+            plt.legend(ncol=kwargs["legend_ncol"])
 
         self.set_xyprecision_xyt_label(**kwargs)
 
@@ -276,6 +278,7 @@ class StackMatplotlib(ParentMatplotlib):
         lows :List[List[float]]
         alpha :float
         legend_location:str #{inside, outside}
+        legend_ncol:int 
     """
 
     def __init__(self, **kwargs) -> None:
@@ -296,9 +299,9 @@ class StackMatplotlib(ParentMatplotlib):
             plt.ylim(kwargs["ymin"], kwargs["ymax"])
 
         if kwargs["legend_location"] == "outside":
-            plt.legend(bbox_to_anchor=(1.02, 1.00), loc="upper left")
+            plt.legend(bbox_to_anchor=(1.02, 1.00), loc="upper left", ncol=kwargs["legend_ncol"])
         else:
-            plt.legend()
+            plt.legend(ncol=kwargs["legend_ncol"])
 
         self.set_xyprecision_xyt_label(**kwargs)
 
@@ -324,6 +327,7 @@ class BarMatplotlib(ParentMatplotlib):
         x_precision :int
         y_precision :int
         legend_location :str
+        legend_ncol:int 
     """
 
     def __init__(self, **kwargs) -> None:
@@ -351,9 +355,9 @@ class BarMatplotlib(ParentMatplotlib):
             plt.ylim(kwargs["ymin"], kwargs["ymax"])
 
         if kwargs["legend_location"] == "outside":
-            plt.legend(bbox_to_anchor=(1.02, 1.00), loc="upper left")
+            plt.legend(bbox_to_anchor=(1.02, 1.00), loc="upper left", ncol=kwargs["legend_ncol"])
         else:
-            plt.legend()
+            plt.legend(ncol=kwargs["legend_ncol"])
 
         self.set_xyprecision_xyt_label(**kwargs)
 
@@ -547,6 +551,7 @@ class ImshowMatplotlib(ParentMatplotlib):
         z_precision :int
         alpha :float
         legend_location :str
+        legend_ncol:int 
         colorbar_location :str
         interpolation :str
         cmap :str
@@ -575,9 +580,10 @@ class ImshowMatplotlib(ParentMatplotlib):
                     bbox_to_anchor=(1.02, 1.00),
                     loc="upper left",
                     borderaxespad=0,
+                    ncol=kwargs["legend_ncol"]
                 )
             else:
-                plt.legend(handles=legend_patches)
+                plt.legend(handles=legend_patches, ncol=kwargs["legend_ncol"])
         else:
             im = plt.imshow(
                 kwargs["data_list"],
@@ -626,6 +632,7 @@ class PcolormeshMatplotlib(ParentMatplotlib):
         z_precision :int
         alpha :float
         legend_location :str
+        legend_ncol:int 
         colorbar_location :str
         cmap :str
     """
@@ -668,9 +675,10 @@ class PcolormeshMatplotlib(ParentMatplotlib):
                     bbox_to_anchor=(1.02, 1.00),
                     loc="upper left",
                     borderaxespad=0,
+                    ncol=kwargs["legend_ncol"]
                 )
             else:
-                plt.legend(handles=legend_patches)
+                plt.legend(handles=legend_patches, ncol=kwargs["legend_ncol"])
         else:
             im = plt.pcolormesh(
                 xdata_index,
