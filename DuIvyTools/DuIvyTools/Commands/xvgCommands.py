@@ -252,7 +252,7 @@ class xvg_compare(Command):
             for column_index in column_indexs:
                 xvg.check_column_index(column_index)
                 if self.parm.showMV:
-                    ## TODO check the correctness of moving averages and confidence intervals when yshrink and yplus are used
+                    ## NOTE yshrink and yplus are used to the results of moving averagesand confidence intervals
                     aves, highs, lows = xvg.calc_mvave(
                         self.parm.windowsize, self.parm.confidence, column_index
                     )
