@@ -108,16 +108,16 @@ If you used DuIvyTools in your research, cite it by doi please.
 - [ ] to specify the figsize by commands
 - [ ] add a command to do AND/OR set operation to hbond or sltbr existance map
 - [ ] add inter-classes to ease the use of plotting xpm or xvg data 
-- [ ] add -xp to plus or minus X or Y data, and in xpm_show cut to adjust xtick values
+- [x] add -xp to plus or minus X or Y data, and in xpm_show cut to adjust xtick values
 - [ ] set the number of ticks
 - [ ] set the row of legends
-- [ ] add data reader from dat or csv file 
 
 ## v0.5.5 new
 
 1. cleaned the none acsii characters in dssp cmd
 2. fixed the bug of calculating the confidence interval
-3. 
+3. add -xp to plus or minus data
+4. 
 
 ## Others
 
