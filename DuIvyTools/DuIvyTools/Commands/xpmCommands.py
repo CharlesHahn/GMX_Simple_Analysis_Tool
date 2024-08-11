@@ -55,6 +55,12 @@ class xpm_show(Command):
                 specify the shrink fold number of Y values
         -zs, --zshrink (optional)
                 specify the shrink fold number of Z values
+        -xp, --xplus (optional)
+                specify the addtion number of X values
+        -yp, --yplus (optional)
+                specify the addtion number of Y values
+        -zp, --zplus (optional)
+                specify the addtion number of Z values
         -xmin, --xmin (optional)
                 specify the xmin index of xpm matrix to show
         -xmax, --xmax (optional)
@@ -222,13 +228,13 @@ class xpm_show(Command):
             self.file = xpm
             self.remove_latex(filetype="XPM")
 
-            xaxis = [x * self.parm.xshrink for x in xpm.xaxis]
-            yaxis = [y * self.parm.yshrink for y in xpm.yaxis]
+            xaxis = [x * self.parm.xshrink + self.parm.xplus for x in xpm.xaxis]
+            yaxis = [y * self.parm.yshrink + self.parm.yplus for y in xpm.yaxis]
             value_matrix = []
             for y, _ in enumerate(yaxis):
                 v_lis = []
                 for x, _ in enumerate(xaxis):
-                    v_lis.append(xpm.value_matrix[y][x] * self.parm.zshrink)
+                    v_lis.append(xpm.value_matrix[y][x] * self.parm.zshrink + self.parm.zplus)
                 value_matrix.append(v_lis)
 
             ## top -> bottom ===>>> bottom to top
@@ -372,6 +378,12 @@ class xpm2csv(Command):
                 specify the shrink fold number of Y values
         -zs, --zshrink (optional)
                 specify the shrink fold number of Z values
+        -xp, --xplus (optional)
+                specify the addtion number of X values
+        -yp, --yplus (optional)
+                specify the addtion number of Y values
+        -zp, --zplus (optional)
+                specify the addtion number of Z values
 
     :Usage:
         dit xpm2csv -f FEL.xpm -o fel.csv
@@ -410,9 +422,9 @@ class xpm2csv(Command):
             for y, y_value in enumerate(xpm.yaxis):
                 for x, x_value in enumerate(xpm.xaxis):
                     z_value = xpm.value_matrix[y][x]
-                    x_value *= self.parm.xshrink
-                    y_value *= self.parm.yshrink
-                    z_value *= self.parm.zshrink
+                    x_value *= self.parm.xshrink + self.parm.xplus
+                    y_value *= self.parm.yshrink + self.parm.yplus
+                    z_value *= self.parm.zshrink + self.parm.zplus
                     fo.write(f"{x_value:.6f},{y_value:.6f},{z_value:.6f}\n")
         self.info(
             f"extract data from {xpm.xpmfile} and saved into {self.parm.output} successfully"
@@ -440,6 +452,12 @@ class xpm2dat(Command):
                 specify the shrink fold number of Y values
         -zs, --zshrink (optional)
                 specify the shrink fold number of Z values
+        -xp, --xplus (optional)
+                specify the addtion number of X values
+        -yp, --yplus (optional)
+                specify the addtion number of Y values
+        -zp, --zplus (optional)
+                specify the addtion number of Z values
 
     :Usage:
         dit xpm2dat -f FEL.xpm -o fel.dat
@@ -478,17 +496,17 @@ class xpm2dat(Command):
                 "#### "
                 + f"{x_title} (xaxis) data were shown below, from left to right:\n"
             )
-            fo.write(",".join([f"{x*self.parm.xshrink:.6f}" for x in xpm.xaxis]) + "\n")
+            fo.write(",".join([f"{x*self.parm.xshrink+self.parm.xplus:.6f}" for x in xpm.xaxis]) + "\n")
             fo.write(
                 "#### "
                 + f"{y_title} (yaxis) data were shown below, from top to bottom:\n"
             )
-            fo.write(",".join([f"{y*self.parm.yshrink:.6f}" for y in xpm.yaxis]) + "\n")
+            fo.write(",".join([f"{y*self.parm.yshrink+self.parm.yplus:.6f}" for y in xpm.yaxis]) + "\n")
             fo.write(
                 "#### "
                 + f"{y_title} (yaxis) data were shown below, from bottom to top:\n"
             )
-            y_lis = [f"{y*self.parm.yshrink:.6f}" for y in xpm.yaxis]
+            y_lis = [f"{y*self.parm.yshrink+self.parm.yplus:.6f}" for y in xpm.yaxis]
             y_lis.reverse()
             fo.write(",".join(y_lis) + "\n")
             fo.write(
@@ -499,7 +517,7 @@ class xpm2dat(Command):
                 line_list: List[str] = []
                 for x, _ in enumerate(xpm.xaxis):
                     z_value = xpm.value_matrix[y][x]
-                    line_list.append(f"{z_value*self.parm.zshrink:.6f}")
+                    line_list.append(f"{z_value*self.parm.zshrink+self.parm.zplus:.6f}")
                 fo.write(",".join(line_list) + "\n")
         self.info(
             f"extract data from {xpm.xpmfile} and saved into {self.parm.output} successfully"
@@ -528,6 +546,12 @@ class xpm_diff(Command):
                 specify the shrink fold number of Y values
         -zs, --zshrink (optional)
                 specify the shrink fold number of Z values
+        -xp, --xplus (optional)
+                specify the addtion number of X values
+        -yp, --yplus (optional)
+                specify the addtion number of Y values
+        -zp, --zplus (optional)
+                specify the addtion number of Z values
 
     :Usage:
         dit xpm_diff -f DCCM0.xpm DCCM1.xpm -o DCCM0-1.xpm
@@ -558,11 +582,11 @@ class xpm_diff(Command):
         xpm.ylabel = self.sel_parm(self.parm.ylabel, xpm.ylabel)
         xpm.legend = self.sel_parm(self.parm.zlabel, xpm.legend)
         xpm.title = self.sel_parm(self.parm.title, f"{xpm0.xpmfile} - {xpm1.xpmfile}")
-        xpm.xaxis = [x * self.parm.xshrink for x in xpm.xaxis]
-        xpm.yaxis = [y * self.parm.yshrink for y in xpm.yaxis]
+        xpm.xaxis = [x * self.parm.xshrink+self.parm.xplus for x in xpm.xaxis]
+        xpm.yaxis = [y * self.parm.yshrink+self.parm.yplus for y in xpm.yaxis]
         for y, _ in enumerate(xpm.yaxis):
             for x, _ in enumerate(xpm.xaxis):
-                xpm.value_matrix[y][x] *= self.parm.zshrink
+                xpm.value_matrix[y][x] *= self.parm.zshrink+self.parm.zplus
         xpm.save(self.parm.output)
 
 
@@ -588,6 +612,12 @@ class xpm_merge(Command):
                 specify the shrink fold number of Y values
         -zs, --zshrink (optional)
                 specify the shrink fold number of Z values
+        -xp, --xplus (optional)
+                specify the addtion number of X values
+        -yp, --yplus (optional)
+                specify the addtion number of Y values
+        -zp, --zplus (optional)
+                specify the addtion number of Z values
 
     :Usage:
         dit xpm_merge -f DCCM0.xpm DCCM1.xpm -o DCCM0-1.xpm
@@ -654,9 +684,9 @@ class xpm_merge(Command):
         out.xlabel = self.sel_parm(self.parm.xlabel, out.xlabel)
         out.ylabel = self.sel_parm(self.parm.ylabel, out.ylabel)
         out.legend = self.sel_parm(self.parm.zlabel, out.legend)
-        out.xaxis = [x * self.parm.xshrink for x in out.xaxis]
-        out.yaxis = [y * self.parm.yshrink for y in out.yaxis]
+        out.xaxis = [x * self.parm.xshrink+self.parm.xplus for x in out.xaxis]
+        out.yaxis = [y * self.parm.yshrink+self.parm.yplus for y in out.yaxis]
         for y, _ in enumerate(out.yaxis):
             for x, _ in enumerate(out.xaxis):
-                out.value_matrix[y][x] *= self.parm.zshrink
+                out.value_matrix[y][x] *= self.parm.zshrink+self.parm.zplus
         out.save(self.parm.output)

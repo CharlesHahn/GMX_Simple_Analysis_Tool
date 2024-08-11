@@ -225,6 +225,7 @@ class XVG(log):
             window_data = np.array(column_data[i - windowsize : i])
             ave = np.mean(window_data)
             ## NOTE CI calculation should be STE, not STD; Fuck, wrong for years! fixed at 20240809
+            ## TODO: check the calculation of CI
             std = np.std(window_data, ddof=1)
             ste = std / np.sqrt(windowsize)
             interval = stats.norm.interval(confidence, ave, ste)

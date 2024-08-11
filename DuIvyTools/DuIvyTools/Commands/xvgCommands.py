@@ -252,20 +252,21 @@ class xvg_compare(Command):
             for column_index in column_indexs:
                 xvg.check_column_index(column_index)
                 if self.parm.showMV:
+                    ## TODO check the correctness of moving averages and confidence intervals when yshrink and yplus are used
                     aves, highs, lows = xvg.calc_mvave(
                         self.parm.windowsize, self.parm.confidence, column_index
                     )
                     highs_list.append(
-                        [y * self.parm.yshrink for y in highs[begin:end:dt]]
+                        [y * self.parm.yshrink + self.parm.yplus for y in highs[begin:end:dt]]
                     )
                     lows_list.append(
-                        [y * self.parm.yshrink for y in lows[begin:end:dt]]
+                        [y * self.parm.yshrink + self.parm.yplus for y in lows[begin:end:dt]]
                     )
                 else:
                     aves = xvg.data_columns[column_index]
-                data_list.append([y * self.parm.yshrink for y in aves[begin:end:dt]])
+                data_list.append([y * self.parm.yshrink + self.parm.yplus for y in aves[begin:end:dt]])
                 xdata.append(
-                    [x * self.parm.xshrink for x in xvg.data_columns[0][begin:end:dt]]
+                    [x * self.parm.xshrink + self.parm.xplus for x in xvg.data_columns[0][begin:end:dt]]
                 )
                 legend = xvg.data_heads[column_index]
                 legends.append(f"{legend} - {xvg.xvgfile}")
@@ -595,6 +596,8 @@ class xvg_combine(Command):
                 specify the index step of data
         -ys, --yshrink (optional)
                 specify the shrink fold number of all selected data columns
+        -yp, --yplus (optional)
+                specify the addtion number of all selected data columns
 
     :Usage:
         dit xvg_combine -f RMSD.xvg Gyrate.xvg -c 0,1 1 -l RMSD Gyrate -x Time(ps)
@@ -638,7 +641,7 @@ class xvg_combine(Command):
                 xvg.check_column_index(column_index)
                 out_xvg.data_heads.append(xvg.data_heads[column_index])
                 data = xvg.data_columns[column_index][begin:end:dt]
-                out_xvg.data_columns.append([d * self.parm.yshrink for d in data])
+                out_xvg.data_columns.append([d * self.parm.yshrink + self.parm.yplus for d in data])
         if self.parm.title:
             out_xvg.title = self.parm.title
         else:
@@ -906,6 +909,12 @@ class xvg_show_scatter(Command):
                 specify the shrink fold number of Y values
         -zs, --zshrink (optional)
                 specify the shrink fold number of Z values
+        -xp, --xplus (optional)
+                specify the addtion number of X values
+        -yp, --yplus (optional)
+                specify the addtion number of Y values
+        -zp, --zplus (optional)
+                specify the addtion number of Z values
         -xmin, --xmin (optional)
                 specify the xmin value of figure canvas
         -xmax, --xmax (optional)
@@ -978,14 +987,14 @@ class xvg_show_scatter(Command):
             xvg.check_column_index(column_indexs)
             xdata_list.append(
                 [
-                    x * self.parm.xshrink
+                    x * self.parm.xshrink + self.parm.xplus
                     for x in xvg.data_columns[column_indexs[0]][begin:end:dt]
                 ]
             )
             xlabel = xvg.data_heads[column_indexs[0]]
             data_list.append(
                 [
-                    y * self.parm.yshrink
+                    y * self.parm.yshrink + self.parm.yplus
                     for y in xvg.data_columns[column_indexs[1]][begin:end:dt]
                 ]
             )
@@ -993,7 +1002,7 @@ class xvg_show_scatter(Command):
             if len(column_indexs) == 3:
                 color_list.append(
                     [
-                        z * self.parm.zshrink
+                        z * self.parm.zshrink + self.parm.zplus
                         for z in xvg.data_columns[column_indexs[2]][begin:end:dt]
                     ]
                 )
@@ -1080,6 +1089,10 @@ class xvg_show_stack(Command):
                 specify the shrink fold number of X values
         -ys, --yshrink (optional)
                 specify the shrink fold number of Y values
+        -xp, --xplus (optional)
+                specify the addtion number of X values
+        -yp, --yplus (optional)
+                specify the addtion number of Y values
         -xmin, --xmin (optional)
                 specify the xmin value of figure canvas
         -xmax, --xmax (optional)
@@ -1143,13 +1156,13 @@ class xvg_show_stack(Command):
                 legends.append(self.file.data_heads[column_indexs[i]])
                 xdata_list.append(
                     [
-                        x * self.parm.xshrink
+                        x * self.parm.xshrink + self.parm.xplus
                         for x in self.file.data_columns[0][begin:end:dt]
                     ]
                 )
                 data_list.append(
                     [
-                        y * self.parm.yshrink
+                        y * self.parm.yshrink + self.parm.yplus
                         for y in self.file.data_columns[column_indexs[i]][begin:end:dt]
                     ]
                 )
@@ -1163,7 +1176,7 @@ class xvg_show_stack(Command):
                             ]
                         )
                     )
-                highs_list.append([y * self.parm.yshrink for y in data[begin:end:dt]])
+                highs_list.append([y * self.parm.yshrink + self.parm.yplus for y in data[begin:end:dt]])
                 lows_list.append([0 for _ in range(len(data_list[0]))])
             legends = self.remove_latex_msgs(legends)
             title = f"{self.file.title} of {self.file.xvgfile}"
@@ -1244,6 +1257,10 @@ class xvg_box_compare(xvg_compare):
                 specify the shrink fold number of Y values
         -zs, --zshrink (optional)
                 specify the shrink fold number of Z values (for colorizing)
+        -yp, --yplus (optional)
+                specify the addtion number of Y values
+        -zp, --zplus (optional)
+                specify the addtion number of Z values (for colorizing)
         -xmin, --xmin (optional)
                 specify the xmin value of figure canvas
         -xmax, --xmax (optional)
@@ -1297,12 +1314,12 @@ class xvg_box_compare(xvg_compare):
                 xvg.check_column_index(column_index)
                 data_list.append(
                     [
-                        y * self.parm.yshrink
+                        y * self.parm.yshrink + self.parm.yplus
                         for y in xvg.data_columns[column_index][begin:end:dt]
                     ]
                 )
                 color_list.append(
-                    [x * self.parm.zshrink for x in xvg.data_columns[0][begin:end:dt]]
+                    [x * self.parm.zshrink + self.parm.zplus for x in xvg.data_columns[0][begin:end:dt]]
                 )  # zshrink for third data
                 zlabel = xvg.data_heads[0]
                 legend = xvg.data_heads[column_index]
