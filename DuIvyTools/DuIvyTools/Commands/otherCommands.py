@@ -493,13 +493,14 @@ class dssp(Command):
                 f"wrong specification of yaxis, need {xpm.height} numbers, but only {len(self.parm.columns[0])} were specified"
             )
         xpm.yaxis.reverse()  # turn into: from high to low
-        if self.parm.begin and self.parm.end:
+        ## NOTE how about -b == 0, so use is not None
+        if self.parm.begin is not None and self.parm.end is not None:
             xpm.xaxis = [i for i in range(self.parm.begin, self.parm.end, self.parm.dt)]
             if len(xpm.xaxis) != xpm.width:
                 self.error(
                     f"wrong specification of xaxis, need {xpm.width} numbers, only get {len(xpm.xaxis)} numbers by -b, -e, and -dt"
                 )
-        elif self.parm.begin and not self.parm.end:
+        elif self.parm.begin is not None and self.parm.end is None:
             xpm.xaxis = [
                 i
                 for i in range(
@@ -508,10 +509,15 @@ class dssp(Command):
                     self.parm.dt,
                 )
             ]
-        elif not self.parm.begin and self.parm.end:
-            self.error("you can not generate xaxis by only specifying -e without -b")
+        elif self.parm.begin is None and self.parm.end is not None:
+            self.info("setting -b to 0 for generating xaxis")
+            xpm.xaxis = [i for i in range(0, self.parm.end, self.parm.dt)]
+            if len(xpm.xaxis) != xpm.width:
+                self.error(
+                    f"wrong specification of xaxis, need {xpm.width} numbers, only get {len(xpm.xaxis)} numbers by -b, -e, and -dt"
+                )
         else:
-            xpm.xaxis = [i for i in range(xpm.width)]
+            xpm.xaxis = [i for i in range(0, xpm.width * self.parm.dt, self.parm.dt)]
         ## save xpm
         xpm.save(outxpm)
 
