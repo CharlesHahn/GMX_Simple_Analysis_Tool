@@ -18,6 +18,7 @@ font.family:        Arial
 font.size:          16
 image.cmap:         coolwarm
 image.aspect:       auto # for fitting into axes
+figure.figsize:     6, 5
 figure.dpi:         100
 savefig.dpi:        300
 axes.prop_cycle:    cycler('color', ['38A7D0', 'F67088', '66C2A5', 'FC8D62', '8DA0CB', 'E78AC3', 'A6D854', 'FFD92F', 'E5C494', 'B3B3B3', '66C2A5', 'FC8D62'])

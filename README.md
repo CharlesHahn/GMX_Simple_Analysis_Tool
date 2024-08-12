@@ -119,6 +119,8 @@ If you used DuIvyTools in your research, cite it by doi please.
 2. fixed the bug of calculating the confidence interval
 3. add -xp to plus or minus data
 4. add --legend_ncol to set the number of columns of legends
+5. fixed the bug in dssp cmd about b==0
+6. add figure.figsize in DIT.mplstyle to set the size of figure
 
 
 ## Others
