@@ -75,12 +75,17 @@ class xvg_show(Command):
                 specify the precision of X ticklabels
         --y_precision (optional)
                 specify the precision of Y ticklabels
+        --x_numticks (optional)
+                specify the number of X ticklabels
+        --y_numticks (optional)
+                specify the number of Y ticklabels
 
     :Usage:
         dit xvg_show -f RMSD.xvg
         dit xvg_show -f RMSD.xvg -ns -o rmsd.png
         dit xvg_show -f RMSD.xvg -x Time(ns) -xs 0.001 --legend_location
         dit xvg_show -f gyrate.xvg -b 1000 -e 2001 --x_precision 2 --y_precision 2
+        dit xvg_show -f RMSD.xvg --x_numticks 9 --y_numticks 5 -xmin 0 -xmax 40000 -ymin 0 
     """
 
     def __init__(self, parm: Parameters) -> None:
@@ -211,6 +216,10 @@ class xvg_compare(Command):
                 specify the precision of Y ticklabels
         --csv (optional)
                 specify the csv file name for dumping xvg data
+        --x_numticks (optional)
+                specify the number of X ticklabels
+        --y_numticks (optional)
+                specify the number of Y ticklabels
 
     :Usage:
         dit xvg_compare -f RMSD.xvg Gyrate.xvg -c 1 1 -l RMSD(nm) Gyrate(nm)
@@ -220,6 +229,7 @@ class xvg_compare(Command):
         dit xvg_compare -f Gyrate.xvg -c 1,2,3 -smv -ws 100 -cf 0.90 --alpha 0.4
         dit xvg_compare -f Gyrate.xvg -c 1,2,3 -smv -eg plotly -csv gyrate.csv
         dit xvg_compare -f Gyrate.xvg -c 1-4 -eg gnuplot --legend_location outside
+        dit xvg_compare -f RMSD.xvg Gyrate.xvg -c 1 1 --x_numticks 9 --y_numticks 5 -xmin 0 -xmax 40000 -ymin 0
     """
 
     def __init__(self, parm: Parameters) -> None:
@@ -719,6 +729,10 @@ class xvg_show_distribution(xvg_compare):
                 specify the bin number of calculating distribution, default to 100. You should set a int number, like `-al 200`
         -m, --mode (optional)
                 set the mode to be `pdf` to present Kernel Density Estimation of selected data. set to `cdf` for Cumulative Kernel Density Estimation
+        --x_numticks (optional)
+                specify the number of X ticklabels
+        --y_numticks (optional)
+                specify the number of Y ticklabels
 
     :Usage:
         dit xvg_show_distribution -f RMSD.xvg Gyrate.xvg -c 1 1
@@ -726,6 +740,7 @@ class xvg_show_distribution(xvg_compare):
         dit xvg_show_distribution -f RMSD.xvg -c 1 -eg plotly
         dit xvg_show_distribution -f RMSD.xvg Gyrate.xvg -c 1 1 -m pdf
         dit xvg_show_distribution -f RMSD.xvg Gyrate.xvg -c 1 1 -m cdf -eg plotly
+        dit xvg_show_distribution -f RMSD.xvg Gyrate.xvg -c 1 1 --x_numticks 9 --y_numticks 5 -xmin 0 -ymin 0 
     """
 
     def __init__(self, parm: Parameters) -> None:
@@ -958,12 +973,19 @@ class xvg_show_scatter(Command):
                 specify the location of legends, inside or outside
         --legend_ncol (optional)
                 specify the number of columns of legends
+        --x_numticks (optional)
+                specify the number of X ticklabels
+        --y_numticks (optional)
+                specify the number of Y ticklabels
+        --z_numticks (optional)
+                specify the number of Z ticklabels
 
     :Usage:
         dit xvg_show_scatter -f Gyrate.xvg -c 1,2
         dit xvg_show_scatter -f Gyrate.xvg -c 1,2 -eg plotly
         dit xvg_show_scatter -f Gyrate.xvg -c 1,2,0 -cmap jet -z Time(ns) -zs 0.001
         dit xvg_show_scatter -f Gyrate.xvg -c 1,2,0 --z_precision 0 --colorbar_location bottom
+        dit xvg_show_scatter -f Gyrate.xvg -c 1,2 --x_numticks 5 --y_numticks 5 --z_numticks 5
     """
 
     def __init__(self, parm: Parameters) -> None:
@@ -1132,12 +1154,17 @@ class xvg_show_stack(Command):
                 specify the location of legends, inside or outside
         --legend_ncol (optional)
                 specify the number of columns of legends
+        --x_numticks (optional)
+                specify the number of X ticklabels
+        --y_numticks (optional)
+                specify the number of Y ticklabels
 
     :Usage:
         dit xvg_show_stack -f dssp_sc.xvg -c 2-7
         dit xvg_show_stack -f dssp_sc.xvg -c 2-7 -xs 0.001 -x Time(ns) --x_precision 0
         dit xvg_show_stack -f dssp_sc.xvg -c 2-7 -eg plotly -b 1000 -e 2001
         dit xvg_show_stack -f dssp_sc.xvg -c 2-7 -eg gnuplot --alpha 0.4
+        dit xvg_show_stack -f dssp_sc.xvg -c 2-7 --x_numticks 5 --y_numticks 5 -xmin 0 -ymin 0 
     """
 
     def __init__(self, parm: Parameters) -> None:
@@ -1313,12 +1340,17 @@ class xvg_box_compare(xvg_compare):
                 specify the precision of Z ticklabels
         --colorbar_location (optional)
                 specify the colorbar_location: bottom, up, left, right
+        --y_numticks (optional)
+                specify the number of Y ticklabels
+        --z_numticks (optional)
+                specify the number of Z ticklabels
 
     :Usage:
         dit xvg_box_compare -f RMSD.xvg -c 1 -cmap jet --alpha 1.0
         dit xvg_box_compare -f RMSD.xvg gyrate.xvg -c 1 1,2,3,4 -m withoutScatter -l RMSD Gyrate Gx Gy Gz
         dit xvg_box_compare -f RMSD.xvg -c 1 -cmap plasma -eg plotly -z Time(ns) --z_precision 0 -zs 0.001
         dit xvg_box_compare -f RMSD.xvg gyrate.xvg -eg gnuplot -c 1 1,2,3,4 -l RMSD Gyrate Gx Gy Gz
+        dit xvg_box_compare -f RMSD.xvg -c 1 --y_numticks 5 --z_numticks 5
     """
 
     def __init__(self, parm: Parameters) -> None:
@@ -1447,6 +1479,8 @@ class xvg_ave_bar(Command):
                 specify the location of legends, inside or outside
         --legend_ncol (optional)
                 specify the number of columns of legends
+        --y_numticks (optional)
+                specify the number of Y ticklabels
 
     :Usage:
         dit xvg_ave_bar -f 0_0.xvg,0_1.xvg,0_2.xvg 1_0.xvg,1_1.xvg,1_2.xvg -c 1,2 -l MD_0 MD_1 -al data_1 data_2 -csv ave_bar.csv

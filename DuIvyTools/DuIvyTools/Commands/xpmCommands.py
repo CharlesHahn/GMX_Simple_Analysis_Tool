@@ -97,6 +97,12 @@ class xpm_show(Command):
                 specify the number of columns of legends
         --colorbar_location (optional)
                 specify the location of colorbar, available for matplotlib: left, top, bottom, right
+        --x_numticks (optional)
+                specify the number of X ticklabels
+        --y_numticks (optional)
+                specify the number of Y ticklabels
+        --z_numticks (optional)
+                specify the number of Z ticklabels
 
     :Usage:
         dit xpm_show -f FEL.xpm
@@ -108,6 +114,8 @@ class xpm_show(Command):
         dit xpm_show -f FEL.xpm -m contour -cmap jet --colorbar_location bottom
         dit xpm_show -f FEL.xpm -m contour -cmap jet -zmin 0 -zmax 20
         dit xpm_show -f DSSP.xpm -xs 0.001 -x Time(ns) --legend_location outside
+        dit xpm_show -f dm.xpm --x_numticks 5 --y_numticks 5
+        dit xpm_show -f fel.xpm --x_numticks 5 --y_numticks 5 --z_numticks 5 -m 3d
         dit xpm_show -f DSSP.xpm -eg plotly -xmin 1000 -xmax 2001 -ymin 50 -ymax 101
         dit xpm_show -f FEL.xpm -eg plotly -m 3d
         dit xpm_show -f FEL.xpm -eg plotly -m contour

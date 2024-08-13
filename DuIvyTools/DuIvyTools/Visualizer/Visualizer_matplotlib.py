@@ -139,6 +139,8 @@ class LineMatplotlib(ParentMatplotlib):
         title :str
         x_precision :int
         y_precision :int
+        x_numticks :int # or None
+        y_numticks :int # or None
         highs :List[List[float]]
         lows :List[List[float]]
         alpha :float
@@ -196,6 +198,9 @@ class ScatterMatplotlib(ParentMatplotlib):
         x_precision :int
         y_precision :int
         z_precision :int
+        x_numticks :int # or None
+        y_numticks :int # or None
+        z_numticks :int # or None
         alpha :float
         cmap :str
         colorbar_location:str
@@ -285,6 +290,8 @@ class StackMatplotlib(ParentMatplotlib):
         x_precision :int
         y_precision :int
         # optional
+        x_numticks :int # or None
+        y_numticks :int # or None
         highs :List[List[float]]
         lows :List[List[float]]
         alpha :float
@@ -337,6 +344,8 @@ class BarMatplotlib(ParentMatplotlib):
         title :str
         x_precision :int
         y_precision :int
+        x_numticks :None
+        y_numticks :int # or None
         legend_location :str
         legend_ncol:int 
     """
@@ -399,6 +408,9 @@ class BoxMatplotlib(ParentMatplotlib):
         x_precision :int
         y_precision :int
         z_precision :int
+        x_numticks :None
+        y_numticks :int # or None
+        z_numticks :int # or None
         alpha :float
         cmap :str
         colorbar_location:str
@@ -437,6 +449,7 @@ class BoxMatplotlib(ParentMatplotlib):
                 cbar.locator = LinearLocator(numticks=kwargs["z_numticks"])
                 cbar.update_ticks()
 
+        ## TODO to beautify the box and violin plot
         box_positions = [i + loc for i in range(len(kwargs["data_list"]))]
         plt.violinplot(
             kwargs["data_list"],
@@ -569,6 +582,9 @@ class ImshowMatplotlib(ParentMatplotlib):
         x_precision :int
         y_precision :int
         z_precision :int
+        x_numticks :int # or None
+        y_numticks :int # or None
+        z_numticks :int # or None
         alpha :float
         legend_location :str
         legend_ncol:int 
@@ -653,6 +669,9 @@ class PcolormeshMatplotlib(ParentMatplotlib):
         x_precision :int
         y_precision :int
         z_precision :int
+        x_numticks :int # or None
+        y_numticks :int # or None
+        z_numticks :int # or None
         alpha :float
         legend_location :str
         legend_ncol:int 
@@ -748,6 +767,9 @@ class ThreeDimensionMatplotlib(ParentMatplotlib):
         x_precision :int
         y_precision :int
         z_precision :int
+        x_numticks :int # or None
+        y_numticks :int # or None
+        z_numticks :int # or None
         alpha :float
         colorbar_location :str
         cmap :str
@@ -765,6 +787,7 @@ class ThreeDimensionMatplotlib(ParentMatplotlib):
                 )
             kwargs["cmap"] = plt.rcParams["image.cmap"]
 
+        ## TODO to beautify the 3D plot
         # to avoid repeat series in X and Y data
         xdata_index = [i for i in range(len(kwargs["xdata_list"]))]
         ydata_index = [i for i in range(len(kwargs["ydata_list"]))]
@@ -800,10 +823,12 @@ class ThreeDimensionMatplotlib(ParentMatplotlib):
                 label=kwargs["zlabel"],
                 format=FormatStrFormatter(f"""%.{kwargs["z_precision"]}f"""),
                 location=kwargs["colorbar_location"],
+                pad=0.2
             )
         else:
             cbar = plt.colorbar(
-                im, label=kwargs["zlabel"], location=kwargs["colorbar_location"]
+                im, label=kwargs["zlabel"], location=kwargs["colorbar_location"],
+                pad=0.2
             )
 
         if kwargs["z_numticks"] != None:
@@ -811,6 +836,8 @@ class ThreeDimensionMatplotlib(ParentMatplotlib):
             cbar.update_ticks()
 
         ax.set_zlabel(kwargs["zlabel"])
+        ax.zaxis.set_major_formatter(FormatStrFormatter(f"""%.{kwargs["z_precision"]}f"""))
+        ax.zaxis.set_major_locator(LinearLocator(numticks=kwargs["z_numticks"]))
         self.set_xytick_precision_xyt_label(**kwargs)
 
 
@@ -831,6 +858,9 @@ class ContourMatplotlib(ParentMatplotlib):
         x_precision :int
         y_precision :int
         z_precision :int
+        x_numticks :int # or None
+        y_numticks :int # or None
+        z_numticks :int # or None
         colorbar_location :str
         cmap :str
     """

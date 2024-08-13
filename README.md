@@ -109,9 +109,9 @@ If you used DuIvyTools in your research, cite it by doi please.
 - [x] to specify the figsize by commands
 - [x] add xpm.comments
 - [ ] speed up the xpm transforming process
-- [ ] unequal number of x and y ticks in xpm like fel.xpm
-- [ ] to set the tickintervals
-- [ ] set the number of ticks
+- [x] unequal number of x and y ticks in xpm like fel.xpm
+- [x] to set the tickintervals
+- [x] set the number of ticks
 - [ ] add original xvg data to smv plot
 
 ## v0.5.5 new
@@ -122,6 +122,8 @@ If you used DuIvyTools in your research, cite it by doi please.
 4. add --legend_ncol to set the number of columns of legends
 5. fixed the bug in dssp cmd about b==0
 6. add figure.figsize in DIT.mplstyle to set the size of figure
+7. add --x_numticks to set the number of ticks
+8. fixed the bug about z_precision in 3d plot
 
 
 ## Others
