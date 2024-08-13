@@ -12,7 +12,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib import colors as mplcolors
 from matplotlib import patches
-from matplotlib.ticker import FormatStrFormatter
+from matplotlib.ticker import FormatStrFormatter, LinearLocator
 
 base = os.path.dirname(os.path.realpath(os.path.join(__file__, "..")))
 if base not in sys.path:
@@ -81,6 +81,10 @@ class ParentMatplotlib(log):
         if kwargs["y_precision"] != None:
             y_p = kwargs["y_precision"]
             ax.yaxis.set_major_formatter(FormatStrFormatter(f"%.{y_p}f"))
+        if kwargs["x_numticks"] != None:
+            ax.xaxis.set_major_locator(LinearLocator(numticks=kwargs["x_numticks"]))
+        if kwargs["y_numticks"] != None:
+            ax.yaxis.set_major_locator(LinearLocator(numticks=kwargs["y_numticks"]))
         plt.xlabel(kwargs["xlabel"])
         plt.ylabel(kwargs["ylabel"])
         plt.title(kwargs["title"])
@@ -92,6 +96,10 @@ class ParentMatplotlib(log):
         if kwargs["y_precision"] == None:
             kwargs["y_precision"] = 0
         ## set ticks: since matrix, the xtics should all be int, not float
+        if kwargs["x_numticks"] != None:
+            plt.gca().xaxis.set_major_locator(LinearLocator(numticks=kwargs["x_numticks"]))
+        if kwargs["y_numticks"] != None:
+            plt.gca().yaxis.set_major_locator(LinearLocator(numticks=kwargs["y_numticks"]))
         xrange = len(kwargs["xdata_list"])
         yrange = len(kwargs["ydata_list"])
         xtics, _ = plt.xticks()

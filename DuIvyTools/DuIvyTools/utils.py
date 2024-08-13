@@ -180,6 +180,21 @@ class Parameters(log):
             help="modify Z values by plusing zplus, default to 0.0",
         )
         parser.add_argument(
+            "--x_numticks",
+            type=int,
+            help="specify the xtick number for visualization",
+        )
+        parser.add_argument(
+            "--y_numticks",
+            type=int,
+            help="specify the ytick number for visualization",
+        )
+        parser.add_argument(
+            "--z_numticks",
+            type=int,
+            help="specify the ztick number for visualization",
+        )
+        parser.add_argument(
             "-smv",
             "--showMV",
             action="store_true",

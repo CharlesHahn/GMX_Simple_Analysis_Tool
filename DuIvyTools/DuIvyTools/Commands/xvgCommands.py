@@ -122,11 +122,13 @@ class xvg_show(Command):
                 "title": self.get_parm("title"),
                 "x_precision": self.parm.x_precision,
                 "y_precision": self.parm.y_precision,
+                "x_numticks": self.parm.x_numticks,
+                "y_numticks": self.parm.y_numticks,
                 "highs": list(),
                 "lows": list(),
                 "alpha": self.sel_parm(self.parm.alpha, 0.4),
                 "legend_location": self.sel_parm(self.parm.legend_location, "inside"),
-                "legend_ncol": self.get_parm("legend_ncol"),
+                "legend_ncol": self.parm.legend_ncol,
             }
             if self.parm.engine == "matplotlib":
                 line = LineMatplotlib(**kwargs)
@@ -291,11 +293,13 @@ class xvg_compare(Command):
             "title": self.get_parm("title"),
             "x_precision": self.parm.x_precision,
             "y_precision": self.parm.y_precision,
+            "x_numticks": self.parm.x_numticks,
+            "y_numticks": self.parm.y_numticks,
             "highs": highs_list,
             "lows": lows_list,
             "alpha": self.sel_parm(self.parm.alpha, 0.4),
             "legend_location": self.sel_parm(self.parm.legend_location, "inside"),
-            "legend_ncol": self.get_parm("legend_ncol"),
+            "legend_ncol": self.parm.legend_ncol,
         }
         if self.parm.engine == "matplotlib":
             line = LineMatplotlib(**kwargs)
@@ -784,11 +788,13 @@ class xvg_show_distribution(xvg_compare):
             "title": self.sel_parm(self.parm.title, "XVG Distribution"),
             "x_precision": self.parm.x_precision,
             "y_precision": self.parm.y_precision,
+            "x_numticks": self.parm.x_numticks,
+            "y_numticks": self.parm.y_numticks,
             "highs": data_list,
             "lows": lows_list,
             "alpha": self.sel_parm(self.parm.alpha, 0.4),
             "legend_location": self.sel_parm(self.parm.legend_location, "inside"),
-            "legend_ncol": self.get_parm("legend_ncol"),
+            "legend_ncol": self.parm.legend_ncol,
         }
         if self.parm.engine == "matplotlib":
             line = LineMatplotlib(**kwargs)
@@ -1048,9 +1054,12 @@ class xvg_show_scatter(Command):
             "x_precision": self.parm.x_precision,
             "y_precision": self.parm.y_precision,
             "z_precision": self.parm.z_precision,
+            "x_numticks": self.parm.x_numticks,
+            "y_numticks": self.parm.y_numticks,
+            "z_numticks": self.parm.z_numticks,
             "colorbar_location": self.parm.colorbar_location,
             "legend_location": self.sel_parm(self.parm.legend_location, "inside"),
-            "legend_ncol": self.get_parm("legend_ncol"),
+            "legend_ncol": self.parm.legend_ncol,
         }
         if self.parm.engine == "matplotlib":
             line = ScatterMatplotlib(**kwargs)
@@ -1213,11 +1222,13 @@ class xvg_show_stack(Command):
                 "title": self.sel_parm(self.parm.title, title),
                 "x_precision": self.parm.x_precision,
                 "y_precision": self.parm.y_precision,
+                "x_numticks": self.parm.x_numticks,
+                "y_numticks": self.parm.y_numticks,
                 "highs": highs_list,
                 "lows": lows_list,
                 "alpha": self.sel_parm(self.parm.alpha, 1.0),
                 "legend_location": self.sel_parm(self.parm.legend_location, "outside"),
-                "legend_ncol": self.get_parm("legend_ncol"),
+                "legend_ncol": self.parm.legend_ncol,
             }
             if self.parm.engine == "matplotlib":
                 line = StackMatplotlib(**kwargs)
@@ -1363,6 +1374,9 @@ class xvg_box_compare(xvg_compare):
             "x_precision": self.parm.x_precision,
             "y_precision": self.parm.y_precision,
             "z_precision": self.parm.z_precision,
+            "x_numticks": self.parm.x_numticks,
+            "y_numticks": self.parm.y_numticks,
+            "z_numticks": self.parm.z_numticks,
             "alpha": self.sel_parm(self.parm.alpha, 0.4),
             "mode": self.parm.mode,
             "cmap": self.sel_parm(self.parm.colormap, None),
@@ -1558,8 +1572,10 @@ class xvg_ave_bar(Command):
             "title": self.sel_parm(self.parm.title, "XVG ave bar comparison"),
             "x_precision": self.parm.x_precision,
             "y_precision": self.parm.y_precision,
+            "x_numticks": self.parm.x_numticks,
+            "y_numticks": self.parm.y_numticks,
             "legend_location": self.sel_parm(self.parm.legend_location, "inside"),
-            "legend_ncol": self.get_parm("legend_ncol"),
+            "legend_ncol": self.parm.legend_ncol,
         }
         if self.parm.engine == "matplotlib":
             line = BarMatplotlib(**kwargs)
