@@ -130,11 +130,11 @@ class XPM(log):
 
         ## check infos
         if self.color_num != len(self.chars):
-            self.error(f"length of chars != color_num")
+            self.error(f"length of chars ({len(self.chars)}) != color_num ({self.color_num})")
         if self.color_num != len(self.colors):
-            self.error(f"length of colors != color_num")
+            self.error(f"length of colors ({len(self.colors)}) != color_num ({self.color_num})")
         if self.color_num != len(self.notes):
-            self.error(f"length of notes != color_num")
+            self.error(f"length of notes ({len(self.notes)}) != color_num ({self.color_num})")
         if len(self.xaxis) != self.width and len(self.xaxis) != self.width + 1:
             self.error(
                 f"length of xaxis ({len(self.xaxis)}) != xpm width ({self.width}) or xpm width +1"
