@@ -228,18 +228,21 @@ class ScatterMatplotlib(ParentMatplotlib):
                     alpha=kwargs["alpha"],
                 )
                 if kwargs["z_precision"] != None:
-                    plt.colorbar(
+                    cbar = plt.colorbar(
                         label=kwargs["zlabel"],
                         format=FormatStrFormatter(f"""%.{kwargs["z_precision"]}f"""),
                         location=kwargs["colorbar_location"],
                         shrink=shrink,
                     )
                 else:
-                    plt.colorbar(
+                    cbar = plt.colorbar(
                         label=kwargs["zlabel"],
                         location=kwargs["colorbar_location"],
                         shrink=shrink,
                     )
+                if kwargs["z_numticks"] != None:
+                    cbar.locator = LinearLocator(numticks=kwargs["z_numticks"])
+                    cbar.update_ticks()
             else:
                 plt.scatter(
                     kwargs["xdata_list"][i],
@@ -367,6 +370,9 @@ class BarMatplotlib(ParentMatplotlib):
         else:
             plt.legend(ncol=kwargs["legend_ncol"])
 
+        if kwargs["x_numticks"] != None:
+            self.warn("x_numticks is not supported for bar plot")
+            kwargs["x_numticks"] = None
         self.set_xyprecision_xyt_label(**kwargs)
 
 
@@ -417,16 +423,19 @@ class BoxMatplotlib(ParentMatplotlib):
                     vmax=kwargs["zmax"],
                 )
             if kwargs["z_precision"] != None:
-                plt.colorbar(
+                cbar = plt.colorbar(
                     label=kwargs["zlabel"],
                     format=FormatStrFormatter(f"""%.{kwargs["z_precision"]}f"""),
                     location=kwargs["colorbar_location"],
                 )
             else:
-                plt.colorbar(
+                cbar = plt.colorbar(
                     label=kwargs["zlabel"],
                     location=kwargs["colorbar_location"],
                 )
+            if kwargs["z_numticks"] != None:
+                cbar.locator = LinearLocator(numticks=kwargs["z_numticks"])
+                cbar.update_ticks()
 
         box_positions = [i + loc for i in range(len(kwargs["data_list"]))]
         plt.violinplot(
@@ -453,6 +462,9 @@ class BoxMatplotlib(ParentMatplotlib):
         if kwargs["ymin"] != None or kwargs["ymax"] != None:
             plt.ylim(kwargs["ymin"], kwargs["ymax"])
 
+        if kwargs["x_numticks"] != None:
+            self.warn("x_numticks is not supported for box plot")
+            kwargs["x_numticks"] = None
         self.set_xyprecision_xyt_label(**kwargs)
 
 
@@ -603,16 +615,19 @@ class ImshowMatplotlib(ParentMatplotlib):
                 vmax=kwargs["zmax"],
             )
             if kwargs["z_precision"] != None:
-                plt.colorbar(
+                cbar = plt.colorbar(
                     im,
                     label=kwargs["zlabel"],
                     format=FormatStrFormatter(f"""%.{kwargs["z_precision"]}f"""),
                     location=kwargs["colorbar_location"],
                 )
             else:
-                plt.colorbar(
+                cbar = plt.colorbar(
                     im, label=kwargs["zlabel"], location=kwargs["colorbar_location"]
                 )
+            if kwargs["z_numticks"] != None:
+                cbar.locator = LinearLocator(numticks=kwargs["z_numticks"])
+                cbar.update_ticks()
 
         self.set_xytick_precision_xyt_label(**kwargs)
 
@@ -699,16 +714,19 @@ class PcolormeshMatplotlib(ParentMatplotlib):
                 vmax=kwargs["zmax"],
             )
             if kwargs["z_precision"] != None:
-                plt.colorbar(
+                cbar = plt.colorbar(
                     im,
                     label=kwargs["zlabel"],
                     format=FormatStrFormatter(f"""%.{kwargs["z_precision"]}f"""),
                     location=kwargs["colorbar_location"],
                 )
             else:
-                plt.colorbar(
+                cbar = plt.colorbar(
                     im, label=kwargs["zlabel"], location=kwargs["colorbar_location"]
                 )
+            if kwargs["z_numticks"] != None:
+                cbar.locator = LinearLocator(numticks=kwargs["z_numticks"])
+                cbar.update_ticks()
 
         self.set_xytick_precision_xyt_label(**kwargs)
 
@@ -777,16 +795,20 @@ class ThreeDimensionMatplotlib(ParentMatplotlib):
             vmax=kwargs["zmax"],
         )
         if kwargs["z_precision"] != None:
-            plt.colorbar(
+            cbar = plt.colorbar(
                 im,
                 label=kwargs["zlabel"],
                 format=FormatStrFormatter(f"""%.{kwargs["z_precision"]}f"""),
                 location=kwargs["colorbar_location"],
             )
         else:
-            plt.colorbar(
+            cbar = plt.colorbar(
                 im, label=kwargs["zlabel"], location=kwargs["colorbar_location"]
             )
+
+        if kwargs["z_numticks"] != None:
+            cbar.locator = LinearLocator(numticks=kwargs["z_numticks"])
+            cbar.update_ticks()
 
         ax.set_zlabel(kwargs["zlabel"])
         self.set_xytick_precision_xyt_label(**kwargs)
@@ -831,12 +853,16 @@ class ContourMatplotlib(ParentMatplotlib):
             vmax=kwargs["zmax"],
         )
         if kwargs["z_precision"] != None:
-            plt.colorbar(
+            cbar = plt.colorbar(
                 label=kwargs["zlabel"],
                 format=FormatStrFormatter(f"""%.{kwargs["z_precision"]}f"""),
                 location=kwargs["colorbar_location"],
             )
         else:
-            plt.colorbar(label=kwargs["zlabel"], location=kwargs["colorbar_location"])
+            cbar = plt.colorbar(label=kwargs["zlabel"], location=kwargs["colorbar_location"])
+
+        if kwargs["z_numticks"] != None:
+            cbar.locator = LinearLocator(numticks=kwargs["z_numticks"])
+            cbar.update_ticks()
 
         self.set_xytick_precision_xyt_label(**kwargs)
