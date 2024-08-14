@@ -150,10 +150,16 @@ class ParentPlotly(log):
 
     def set_xytick_precision_xyt_label(self, **kwargs) -> None:
         """set Y tick, precision, Y tick, precision, xlabel, ylabel, title"""
-        step = len(kwargs["xdata_list"]) // self.nticks
+        x_nticks = (self.nticks, kwargs["x_numticks"])[kwargs["x_numticks"] != None]
+        y_nticks = (self.nticks, kwargs["y_numticks"])[kwargs["y_numticks"] != None]
+        if kwargs["x_precision"] == None:
+            kwargs["x_precision"] = 1
+        if kwargs["y_precision"] == None:
+            kwargs["y_precision"] = 1
+        step = len(kwargs["xdata_list"]) // x_nticks
         step = [step, 1][step == 0]
         xdata_index = [i for i in range(0, len(kwargs["xdata_list"]), step)]
-        step = len(kwargs["ydata_list"]) // self.nticks
+        step = len(kwargs["ydata_list"]) // y_nticks
         step = [step, 1][step == 0]
         ydata_index = [i for i in range(0, len(kwargs["ydata_list"]), step)]
         self.figure.update_xaxes(
@@ -782,10 +788,12 @@ class ThreeDimensionPlotly(ParentPlotly):
             self.figure.update_traces(
                 contours_z=dict(show=True, usecolormap=True, project_z=True)
             )
-            step = len(kwargs["xdata_list"]) // self.nticks
+            x_nticks = (self.nticks, kwargs["x_numticks"])[kwargs["x_numticks"] != None]
+            y_nticks = (self.nticks, kwargs["y_numticks"])[kwargs["y_numticks"] != None]
+            step = len(kwargs["xdata_list"]) // x_nticks
             step = [step, 1][step == 0]
             xdata_index = [i for i in range(0, len(kwargs["xdata_list"]), step)]
-            step = len(kwargs["ydata_list"]) // self.nticks
+            step = len(kwargs["ydata_list"]) // y_nticks
             step = [step, 1][step == 0]
             ydata_index = [i for i in range(0, len(kwargs["ydata_list"]), step)]
             if kwargs["x_precision"] != None:
