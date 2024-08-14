@@ -147,6 +147,8 @@ class ParentPlotly(log):
             self.figure.update_layout(xaxis_tickformat=f".{kwargs['x_precision']}f")
         if kwargs["y_precision"] != None:
             self.figure.update_layout(yaxis_tickformat=f".{kwargs['y_precision']}f")
+        if kwargs["x_numticks"] != None or kwargs["y_numticks"] != None:
+            self.warn("unable to set x_numticks and y_numticks on plotly, set it by plotly json template: tickvals and ticktext")
 
     def set_xytick_precision_xyt_label(self, **kwargs) -> None:
         """set Y tick, precision, Y tick, precision, xlabel, ylabel, title"""
