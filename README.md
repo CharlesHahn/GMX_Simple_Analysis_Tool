@@ -111,9 +111,9 @@ If you used DuIvyTools in your research, cite it by doi please.
 - [x] unequal number of x and y ticks in xpm like fel.xpm
 - [x] to set the tickintervals
 - [x] set the number of ticks
-- [ ] speed up the xpm transforming process
+- [x] speed up the xpm transforming process
+- [x] pmf xvg parsing problem
 - [ ] add original xvg data to smv plot, -smv reset
-- [ ] pmf xvg parsing problem
 
 ## what's new in v0.5.4
 
@@ -125,6 +125,7 @@ If you used DuIvyTools in your research, cite it by doi please.
 6. add figure.figsize in DIT.mplstyle to set the size of figure
 7. add --x_numticks to set the number of ticks
 8. fixed the bug about z_precision in 3d plot
+9. update the xvg_show to support data columns without titles
 
 
 ## Others

@@ -42,6 +42,7 @@ class XVG(log):
         self.row_num: int = 0
         self.data_heads: List[str] = []
         self.data_columns: List[Union(float, str)] = []
+        self.data_noheads: List[str] = []
 
         if new_file:
             self.xvgfile = xvgfile
@@ -140,9 +141,17 @@ class XVG(log):
             self.error(f"no data line detected in {self.xvgfile}")
         if len(self.data_heads) < self.column_num:
             self.warn(
-                f"string column may detected, data_heads {len(self.data_heads)} < column_num {self.column_num}"
+                f"column without title may detected, data_heads {len(self.data_heads)} < column_num {self.column_num}"
             )
-            ## TODO deal with distance results xvg, try to convert to number
+            ## NOTE deal with columns without titles, like pmf.xvg
+            for di in range(len(self.data_heads), self.column_num):
+                try:
+                    column_di = [float(c) for c in self.data_columns[di]]
+                except:
+                    self.data_noheads.append(f"col{di}_str")
+                else:
+                    self.data_columns[di] = column_di
+                    self.data_noheads.append(f"col{di}")
 
     def save(self, outxvg: str, check: bool = True) -> None:
         """dump XVG class to xvg file

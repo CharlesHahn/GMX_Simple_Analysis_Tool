@@ -112,12 +112,28 @@ class xvg_show(Command):
                 xdata.append(
                     [x * self.parm.xshrink + self.parm.xplus for x in xvg.data_columns[0][begin:end:dt]]
                 )
+            # to deal with columns without titles
+            noheads2show = []
+            for c, nohead in enumerate(xvg.data_noheads):
+                if not nohead.endswith("_str"):
+                    nc = len(xvg.data_heads) + c
+                    noheads2show.append(nohead)
+                    data_list.append(
+                        [
+                            y * self.parm.yshrink + self.parm.yplus
+                            for y in xvg.data_columns[nc][begin:end:dt]
+                        ]
+                    )
+                    xdata.append(
+                        [x * self.parm.xshrink + self.parm.xplus for x in xvg.data_columns[0][begin:end:dt]]
+                    )
             self.remove_latex()
+            legends2show = xvg.data_heads[1:] + noheads2show
 
             kwargs = {
                 "data_list": data_list,
                 "xdata_list": xdata,
-                "legends": self.sel_parm(self.parm.legends, xvg.data_heads[1:]),
+                "legends": self.sel_parm(self.parm.legends, legends2show),
                 "xmin": self.get_parm("xmin"),
                 "xmax": self.get_parm("xmax"),
                 "ymin": self.get_parm("ymin"),
