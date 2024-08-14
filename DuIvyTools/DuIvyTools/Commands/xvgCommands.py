@@ -301,7 +301,12 @@ class xvg_compare(Command):
                 xdata.append(
                     [x * self.parm.xshrink + self.parm.xplus for x in xvg.data_columns[0][begin:end:dt]]
                 )
-                legend = xvg.data_heads[column_index]
+                if column_index < len(xvg.data_heads):
+                    legend = xvg.data_heads[column_index]
+                else:
+                    legend = xvg.data_noheads[column_index - len(xvg.data_heads)]
+                    if legend.endswith("_str"):
+                        self.error(f"column index {column_index} (name {legend}) of {xvg.xvgfile} is string type, unsupport to draw")
                 legends.append(f"{legend} - {xvg.xvgfile}")
         self.remove_latex()
         legends = self.remove_latex_msgs(legends)
