@@ -10,6 +10,8 @@ import string
 from itertools import chain
 from typing import List
 
+import numpy as np
+
 base = os.path.dirname(os.path.realpath(os.path.join(__file__, "..")))
 if base not in sys.path:
     sys.path.insert(0, base)
@@ -240,12 +242,10 @@ class XPM(log):
         elif l > 0 and l <= len(letters):
             self.char_per_pixel = 1
             self.chars = [f"{x}" for x in letters][:l]
-        elif l > len(letters) and l <= len(letters) * len(letters):
+        elif l > len(letters) and l <= len(letters) ** 2:
             self.char_per_pixel = 2
             self.chars = [f"{x}{y}" for x in letters for y in letters][:l]
-        elif l > len(letters) * len(letters) and l <= len(letters) * len(letters) * len(
-            letters
-        ):
+        elif l > len(letters) **2 and l <= len(letters) ** 3:
             self.warn(
                 f"so many values ({l}) in xpm.value_matrix, may resulting in large xpm file"
             )
@@ -262,7 +262,35 @@ class XPM(log):
             for h in range(self.height):
                 self.dot_matrix.append(["" for _ in range(self.width)])
                 self.datalines.append("")
-        ## TODO to speed up this part
+
+        ## use dict to accelerate the search of index
+        value_to_index = {value: idx for idx, value in enumerate(out_value_list)}
+        """  ## cost 0.008s
+        for h in range(self.height):
+            dot_line: str = ""
+            for w in range(self.width):
+                dot = self.chars[value_to_index[self.value_matrix[h][w]]]
+                self.dot_matrix[h][w] = dot
+                dot_line += dot
+            self.datalines[h] = dot_line
+        if not is_Continuous:  # refresh value_matrix from str to index
+            for h in range(self.height):
+                for w in range(self.width):
+                    self.value_matrix[h][w] = out_value_list.index(
+                        self.value_matrix[h][w]
+                    )
+        """
+        ## cost 0.013s
+        value_matrix_np = np.array(self.value_matrix)
+        indices = np.vectorize(value_to_index.get)(value_matrix_np)
+        chars_np = np.array(self.chars)
+        dot_matrix_np = chars_np[indices]
+        self.dot_matrix = dot_matrix_np.tolist()
+        self.datalines = [''.join(line) for line in dot_matrix_np]
+        if not is_Continuous:
+            self.value_matrix = indices.tolist()
+
+        """ ## original code 20240814 cost 0.044s
         for h in range(self.height):
             dot_line: str = ""
             for w in range(self.width):
@@ -276,6 +304,7 @@ class XPM(log):
                     self.value_matrix[h][w] = out_value_list.index(
                         self.value_matrix[h][w]
                     )
+        """
 
     def save(self, outname: str) -> None:
         """dump XPM into xpm file"""
