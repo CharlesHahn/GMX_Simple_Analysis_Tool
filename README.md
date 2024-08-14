@@ -33,7 +33,7 @@ dit xvg_show -f test.xvg
 dit xpm_show -f test.xpm
 ```
 
-Type `dit` for the commands supported. Type `dit <comman> -h` for detailed help information of each command. 
+Type `dit` for the commands supported. Type `dit <command> -h` for detailed help information of each command. 
 
 The tutorials (in Chinese) of DIT can be found at https://duivytools.readthedocs.io/
 
@@ -108,13 +108,14 @@ If you used DuIvyTools in your research, cite it by doi please.
 - [x] set the row of legends
 - [x] to specify the figsize by commands
 - [x] add xpm.comments
-- [ ] speed up the xpm transforming process
 - [x] unequal number of x and y ticks in xpm like fel.xpm
 - [x] to set the tickintervals
 - [x] set the number of ticks
-- [ ] add original xvg data to smv plot
+- [ ] speed up the xpm transforming process
+- [ ] add original xvg data to smv plot, -smv reset
+- [ ] pmf xvg parsing problem
 
-## v0.5.5 new
+## what's new in v0.5.4
 
 1. cleaned the none acsii characters in dssp cmd
 2. fixed the bug of calculating the confidence interval
