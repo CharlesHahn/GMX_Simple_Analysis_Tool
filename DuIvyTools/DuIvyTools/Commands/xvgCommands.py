@@ -85,7 +85,7 @@ class xvg_show(Command):
         dit xvg_show -f RMSD.xvg -ns -o rmsd.png
         dit xvg_show -f RMSD.xvg -x Time(ns) -xs 0.001 --legend_location
         dit xvg_show -f gyrate.xvg -b 1000 -e 2001 --x_precision 2 --y_precision 2
-        dit xvg_show -f RMSD.xvg --x_numticks 9 --y_numticks 5 -xmin 0 -xmax 40000 -ymin 0 
+        dit xvg_show -f RMSD.xvg --x_numticks 9 --y_numticks 5 -xmin 0 -xmax 40000 -ymin 0
     """
 
     def __init__(self, parm: Parameters) -> None:
@@ -110,7 +110,10 @@ class xvg_show(Command):
                     ]
                 )
                 xdata.append(
-                    [x * self.parm.xshrink + self.parm.xplus for x in xvg.data_columns[0][begin:end:dt]]
+                    [
+                        x * self.parm.xshrink + self.parm.xplus
+                        for x in xvg.data_columns[0][begin:end:dt]
+                    ]
                 )
             # to deal with columns without titles
             noheads2show = []
@@ -125,7 +128,10 @@ class xvg_show(Command):
                         ]
                     )
                     xdata.append(
-                        [x * self.parm.xshrink + self.parm.xplus for x in xvg.data_columns[0][begin:end:dt]]
+                        [
+                            x * self.parm.xshrink + self.parm.xplus
+                            for x in xvg.data_columns[0][begin:end:dt]
+                        ]
                     )
             self.remove_latex()
             legends2show = xvg.data_heads[1:] + noheads2show
@@ -280,7 +286,14 @@ class xvg_compare(Command):
         begin, end, dt = self.parm.begin, self.parm.end, self.parm.dt
         xvgs = [XVG(xvg) for xvg in self.parm.input]
         self.file = xvgs[0]
-        legends, xdata, data_list, highs_list, lows_list, origins_list = [], [], [], [], [], []
+        legends, xdata, data_list, highs_list, lows_list, origins_list = (
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+        )
         for id, column_indexs in enumerate(self.parm.columns):
             xvg = xvgs[id]
             for column_index in column_indexs:
@@ -291,30 +304,52 @@ class xvg_compare(Command):
                         self.parm.windowsize, self.parm.confidence, column_index
                     )
                     highs_list.append(
-                        [y * self.parm.yshrink + self.parm.yplus for y in highs[begin:end:dt]]
+                        [
+                            y * self.parm.yshrink + self.parm.yplus
+                            for y in highs[begin:end:dt]
+                        ]
                     )
                     lows_list.append(
-                        [y * self.parm.yshrink + self.parm.yplus for y in lows[begin:end:dt]]
+                        [
+                            y * self.parm.yshrink + self.parm.yplus
+                            for y in lows[begin:end:dt]
+                        ]
                     )
                 elif self.parm.showMV == "origin":
                     ## NOTE yshrink and yplus are used to the results of moving averagesand confidence intervals
                     aves, _, _ = xvg.calc_mvave(
-                        self.parm.windowsize, self.parm.confidence, column_index, calc_CI=False
+                        self.parm.windowsize,
+                        self.parm.confidence,
+                        column_index,
+                        calc_CI=False,
                     )
-                    origin = [y * self.parm.yshrink + self.parm.yplus for y in xvg.data_columns[column_index][begin:end:dt]]
+                    origin = [
+                        y * self.parm.yshrink + self.parm.yplus
+                        for y in xvg.data_columns[column_index][begin:end:dt]
+                    ]
                     origins_list.append(origin)
                 else:
                     aves = xvg.data_columns[column_index]
-                data_list.append([y * self.parm.yshrink + self.parm.yplus for y in aves[begin:end:dt]])
+                data_list.append(
+                    [
+                        y * self.parm.yshrink + self.parm.yplus
+                        for y in aves[begin:end:dt]
+                    ]
+                )
                 xdata.append(
-                    [x * self.parm.xshrink + self.parm.xplus for x in xvg.data_columns[0][begin:end:dt]]
+                    [
+                        x * self.parm.xshrink + self.parm.xplus
+                        for x in xvg.data_columns[0][begin:end:dt]
+                    ]
                 )
                 if column_index < len(xvg.data_heads):
                     legend = xvg.data_heads[column_index]
                 else:
                     legend = xvg.data_noheads[column_index - len(xvg.data_heads)]
                     if legend.endswith("_str"):
-                        self.error(f"column index {column_index} (name {legend}) of {xvg.xvgfile} is string type, unsupport to draw")
+                        self.error(
+                            f"column index {column_index} (name {legend}) of {xvg.xvgfile} is string type, unsupport to draw"
+                        )
                 legends.append(f"{legend} - {xvg.xvgfile}")
         self.remove_latex()
         legends = self.remove_latex_msgs(legends)
@@ -727,7 +762,9 @@ class xvg_combine(Command):
                 xvg.check_column_index(column_index)
                 out_xvg.data_heads.append(xvg.data_heads[column_index])
                 data = xvg.data_columns[column_index][begin:end:dt]
-                out_xvg.data_columns.append([d * self.parm.yshrink + self.parm.yplus for d in data])
+                out_xvg.data_columns.append(
+                    [d * self.parm.yshrink + self.parm.yplus for d in data]
+                )
         if self.parm.title:
             out_xvg.title = self.parm.title
         else:
@@ -806,7 +843,7 @@ class xvg_show_distribution(xvg_compare):
         dit xvg_show_distribution -f RMSD.xvg -c 1 -eg plotly
         dit xvg_show_distribution -f RMSD.xvg Gyrate.xvg -c 1 1 -m pdf
         dit xvg_show_distribution -f RMSD.xvg Gyrate.xvg -c 1 1 -m cdf -eg plotly
-        dit xvg_show_distribution -f RMSD.xvg Gyrate.xvg -c 1 1 --x_numticks 9 --y_numticks 5 -xmin 0 -ymin 0 
+        dit xvg_show_distribution -f RMSD.xvg Gyrate.xvg -c 1 1 --x_numticks 9 --y_numticks 5 -xmin 0 -ymin 0
     """
 
     def __init__(self, parm: Parameters) -> None:
@@ -1230,7 +1267,7 @@ class xvg_show_stack(Command):
         dit xvg_show_stack -f dssp_sc.xvg -c 2-7 -xs 0.001 -x Time(ns) --x_precision 0
         dit xvg_show_stack -f dssp_sc.xvg -c 2-7 -eg plotly -b 1000 -e 2001
         dit xvg_show_stack -f dssp_sc.xvg -c 2-7 -eg gnuplot --alpha 0.4
-        dit xvg_show_stack -f dssp_sc.xvg -c 2-7 --x_numticks 5 --y_numticks 5 -xmin 0 -ymin 0 
+        dit xvg_show_stack -f dssp_sc.xvg -c 2-7 --x_numticks 5 --y_numticks 5 -xmin 0 -ymin 0
     """
 
     def __init__(self, parm: Parameters) -> None:
@@ -1292,7 +1329,12 @@ class xvg_show_stack(Command):
                             ]
                         )
                     )
-                highs_list.append([y * self.parm.yshrink + self.parm.yplus for y in data[begin:end:dt]])
+                highs_list.append(
+                    [
+                        y * self.parm.yshrink + self.parm.yplus
+                        for y in data[begin:end:dt]
+                    ]
+                )
                 lows_list.append([0 for _ in range(len(data_list[0]))])
             legends = self.remove_latex_msgs(legends)
             title = f"{self.file.title} of {self.file.xvgfile}"
@@ -1443,7 +1485,10 @@ class xvg_box_compare(xvg_compare):
                     ]
                 )
                 color_list.append(
-                    [x * self.parm.zshrink + self.parm.zplus for x in xvg.data_columns[0][begin:end:dt]]
+                    [
+                        x * self.parm.zshrink + self.parm.zplus
+                        for x in xvg.data_columns[0][begin:end:dt]
+                    ]
                 )  # zshrink for third data
                 zlabel = xvg.data_heads[0]
                 legend = xvg.data_heads[column_index]

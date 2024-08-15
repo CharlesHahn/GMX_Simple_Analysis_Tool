@@ -368,7 +368,13 @@ set colorbox vertical origin screen 0.9, 0.2 size screen 0.05, 0.6 front  noinve
 
     def line_plot(self, gpl: str) -> str:
         """dump data of line plot to string"""
-        if self.data and self.legends and len(self.highs) == 0 and len(self.lows) == 0 and len(self.origins) == 0:
+        if (
+            self.data
+            and self.legends
+            and len(self.highs) == 0
+            and len(self.lows) == 0
+            and len(self.origins) == 0
+        ):
             for c in range(len(self.data)):
                 gpl += f"\n$data{c} << EOD\n"
                 for r in range(len(self.xdata[c])):
@@ -380,7 +386,13 @@ set colorbox vertical origin screen 0.9, 0.2 size screen 0.05, 0.6 front  noinve
             gpl += "\n"
             return gpl
 
-        if self.data and self.legends and len(self.highs) != 0 and len(self.lows) != 0 and len(self.origins) == 0:
+        if (
+            self.data
+            and self.legends
+            and len(self.highs) != 0
+            and len(self.lows) != 0
+            and len(self.origins) == 0
+        ):
             gpl += f"""set style fill transparent solid {self.alpha} noborder\n"""
             for c in range(len(self.data)):
                 gpl += f"\n$data{c} << EOD\n"
@@ -393,7 +405,13 @@ set colorbox vertical origin screen 0.9, 0.2 size screen 0.05, 0.6 front  noinve
             gpl += "\n"
             return gpl
 
-        if self.data and self.legends and len(self.highs) == 0 and len(self.lows) == 0 and len(self.origins) != 0:
+        if (
+            self.data
+            and self.legends
+            and len(self.highs) == 0
+            and len(self.lows) == 0
+            and len(self.origins) != 0
+        ):
             for c in range(len(self.data)):
                 gpl += f"\n$data{c} << EOD\n"
                 for r in range(len(self.xdata[c])):
@@ -894,7 +912,7 @@ class ImshowGnuplot(ParentGnuplot):
         # self.gnuplot.colorbar_location = kwargs["colorbar_location"]
         if kwargs["colorbar_location"]:
             self.warn("DIT is unable to set colorbar location for gnuplot now.")
-        
+
         if kwargs["x_numticks"] != None:
             self.gnuplot.xntics = kwargs["x_numticks"]
         if kwargs["y_numticks"] != None:

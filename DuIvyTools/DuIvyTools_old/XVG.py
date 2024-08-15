@@ -14,7 +14,6 @@ This module contains:
 
 This file is provided to you under GPLv3 License"""
 
-
 import os
 import sys
 import argparse

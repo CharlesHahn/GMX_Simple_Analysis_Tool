@@ -6,7 +6,6 @@ DIT module provides simple API and CLI commands for you to use conveniently.
 This file is provided to you under GPLv3 License.
 """
 
-
 import os
 import sys
 import logging

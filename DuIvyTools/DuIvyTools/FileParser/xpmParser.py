@@ -132,11 +132,17 @@ class XPM(log):
 
         ## check infos
         if self.color_num != len(self.chars):
-            self.error(f"length of chars ({len(self.chars)}) != color_num ({self.color_num})")
+            self.error(
+                f"length of chars ({len(self.chars)}) != color_num ({self.color_num})"
+            )
         if self.color_num != len(self.colors):
-            self.error(f"length of colors ({len(self.colors)}) != color_num ({self.color_num})")
+            self.error(
+                f"length of colors ({len(self.colors)}) != color_num ({self.color_num})"
+            )
         if self.color_num != len(self.notes):
-            self.error(f"length of notes ({len(self.notes)}) != color_num ({self.color_num})")
+            self.error(
+                f"length of notes ({len(self.notes)}) != color_num ({self.color_num})"
+            )
         if len(self.xaxis) != self.width and len(self.xaxis) != self.width + 1:
             self.error(
                 f"length of xaxis ({len(self.xaxis)}) != xpm width ({self.width}) or xpm width +1"
@@ -245,7 +251,7 @@ class XPM(log):
         elif l > len(letters) and l <= len(letters) ** 2:
             self.char_per_pixel = 2
             self.chars = [f"{x}{y}" for x in letters for y in letters][:l]
-        elif l > len(letters) **2 and l <= len(letters) ** 3:
+        elif l > len(letters) ** 2 and l <= len(letters) ** 3:
             self.warn(
                 f"so many values ({l}) in xpm.value_matrix, may resulting in large xpm file"
             )
@@ -286,7 +292,7 @@ class XPM(log):
         chars_np = np.array(self.chars)
         dot_matrix_np = chars_np[indices]
         self.dot_matrix = dot_matrix_np.tolist()
-        self.datalines = [''.join(line) for line in dot_matrix_np]
+        self.datalines = ["".join(line) for line in dot_matrix_np]
         if not is_Continuous:
             self.value_matrix = indices.tolist()
 

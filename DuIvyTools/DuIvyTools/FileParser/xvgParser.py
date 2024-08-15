@@ -202,7 +202,13 @@ class XVG(log):
             fo.write(outstr)
         self.info(f"dump xvg to {outxvg} successfully")
 
-    def calc_mvave(self, windowsize: int, confidence: float, column_index: int, calc_CI: bool = True) -> Tuple[List]:
+    def calc_mvave(
+        self,
+        windowsize: int,
+        confidence: float,
+        column_index: int,
+        calc_CI: bool = True,
+    ) -> Tuple[List]:
         """
         calculate the moving average of each column
 

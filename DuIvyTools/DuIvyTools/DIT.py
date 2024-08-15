@@ -133,10 +133,12 @@ Have a good day !
         cmd = cmd(parm)
         cmd()
 
+
 def main():
     dit = DIT()
     dit.run()
     dit.info("May you good day !")
+
 
 if __name__ == "__main__":
     main()

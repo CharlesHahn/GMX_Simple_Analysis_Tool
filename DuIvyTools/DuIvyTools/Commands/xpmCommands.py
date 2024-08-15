@@ -244,7 +244,9 @@ class xpm_show(Command):
             for y, _ in enumerate(yaxis):
                 v_lis = []
                 for x, _ in enumerate(xaxis):
-                    v_lis.append(xpm.value_matrix[y][x] * self.parm.zshrink + self.parm.zplus)
+                    v_lis.append(
+                        xpm.value_matrix[y][x] * self.parm.zshrink + self.parm.zplus
+                    )
                 value_matrix.append(v_lis)
 
             ## top -> bottom ===>>> bottom to top
@@ -510,12 +512,22 @@ class xpm2dat(Command):
                 "#### "
                 + f"{x_title} (xaxis) data were shown below, from left to right:\n"
             )
-            fo.write(",".join([f"{x*self.parm.xshrink+self.parm.xplus:.6f}" for x in xpm.xaxis]) + "\n")
+            fo.write(
+                ",".join(
+                    [f"{x*self.parm.xshrink+self.parm.xplus:.6f}" for x in xpm.xaxis]
+                )
+                + "\n"
+            )
             fo.write(
                 "#### "
                 + f"{y_title} (yaxis) data were shown below, from top to bottom:\n"
             )
-            fo.write(",".join([f"{y*self.parm.yshrink+self.parm.yplus:.6f}" for y in xpm.yaxis]) + "\n")
+            fo.write(
+                ",".join(
+                    [f"{y*self.parm.yshrink+self.parm.yplus:.6f}" for y in xpm.yaxis]
+                )
+                + "\n"
+            )
             fo.write(
                 "#### "
                 + f"{y_title} (yaxis) data were shown below, from bottom to top:\n"
@@ -596,11 +608,11 @@ class xpm_diff(Command):
         xpm.ylabel = self.sel_parm(self.parm.ylabel, xpm.ylabel)
         xpm.legend = self.sel_parm(self.parm.zlabel, xpm.legend)
         xpm.title = self.sel_parm(self.parm.title, f"{xpm0.xpmfile} - {xpm1.xpmfile}")
-        xpm.xaxis = [x * self.parm.xshrink+self.parm.xplus for x in xpm.xaxis]
-        xpm.yaxis = [y * self.parm.yshrink+self.parm.yplus for y in xpm.yaxis]
+        xpm.xaxis = [x * self.parm.xshrink + self.parm.xplus for x in xpm.xaxis]
+        xpm.yaxis = [y * self.parm.yshrink + self.parm.yplus for y in xpm.yaxis]
         for y, _ in enumerate(xpm.yaxis):
             for x, _ in enumerate(xpm.xaxis):
-                xpm.value_matrix[y][x] *= self.parm.zshrink+self.parm.zplus
+                xpm.value_matrix[y][x] *= self.parm.zshrink + self.parm.zplus
         xpm.save(self.parm.output)
 
 
@@ -698,9 +710,9 @@ class xpm_merge(Command):
         out.xlabel = self.sel_parm(self.parm.xlabel, out.xlabel)
         out.ylabel = self.sel_parm(self.parm.ylabel, out.ylabel)
         out.legend = self.sel_parm(self.parm.zlabel, out.legend)
-        out.xaxis = [x * self.parm.xshrink+self.parm.xplus for x in out.xaxis]
-        out.yaxis = [y * self.parm.yshrink+self.parm.yplus for y in out.yaxis]
+        out.xaxis = [x * self.parm.xshrink + self.parm.xplus for x in out.xaxis]
+        out.yaxis = [y * self.parm.yshrink + self.parm.yplus for y in out.yaxis]
         for y, _ in enumerate(out.yaxis):
             for x, _ in enumerate(out.xaxis):
-                out.value_matrix[y][x] *= self.parm.zshrink+self.parm.zplus
+                out.value_matrix[y][x] *= self.parm.zshrink + self.parm.zplus
         out.save(self.parm.output)

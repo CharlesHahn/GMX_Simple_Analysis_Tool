@@ -97,9 +97,13 @@ class ParentMatplotlib(log):
             kwargs["y_precision"] = 0
         ## set ticks: since matrix, the xtics should all be int, not float
         if kwargs["x_numticks"] != None:
-            plt.gca().xaxis.set_major_locator(LinearLocator(numticks=kwargs["x_numticks"]))
+            plt.gca().xaxis.set_major_locator(
+                LinearLocator(numticks=kwargs["x_numticks"])
+            )
         if kwargs["y_numticks"] != None:
-            plt.gca().yaxis.set_major_locator(LinearLocator(numticks=kwargs["y_numticks"]))
+            plt.gca().yaxis.set_major_locator(
+                LinearLocator(numticks=kwargs["y_numticks"])
+            )
         xrange = len(kwargs["xdata_list"])
         yrange = len(kwargs["ydata_list"])
         xtics, _ = plt.xticks()
@@ -146,7 +150,7 @@ class LineMatplotlib(ParentMatplotlib):
         origins :List[List[float]]
         alpha :float
         legend_location:str #{inside, outside}
-        legend_ncol:int 
+        legend_ncol:int
     """
 
     def __init__(self, **kwargs) -> None:
@@ -156,7 +160,12 @@ class LineMatplotlib(ParentMatplotlib):
         for i, data in enumerate(kwargs["data_list"]):
             color = ax._get_lines.get_next_color()
             if "origins" in kwargs and len(kwargs["origins"]) != 0:
-                plt.plot(kwargs["xdata_list"][i], kwargs["origins"][i], color=color, alpha=kwargs["alpha"])
+                plt.plot(
+                    kwargs["xdata_list"][i],
+                    kwargs["origins"][i],
+                    color=color,
+                    alpha=kwargs["alpha"],
+                )
             if len(kwargs["highs"]) != 0 and len(kwargs["lows"]) != 0:
                 plt.fill_between(
                     kwargs["xdata_list"][i],
@@ -165,7 +174,9 @@ class LineMatplotlib(ParentMatplotlib):
                     color=color,
                     alpha=kwargs["alpha"],
                 )
-            plt.plot(kwargs["xdata_list"][i], data, label=kwargs["legends"][i], color=color)
+            plt.plot(
+                kwargs["xdata_list"][i], data, label=kwargs["legends"][i], color=color
+            )
 
         if kwargs["xmin"] != None or kwargs["xmax"] != None:
             plt.xlim(kwargs["xmin"], kwargs["xmax"])
@@ -173,7 +184,11 @@ class LineMatplotlib(ParentMatplotlib):
             plt.ylim(kwargs["ymin"], kwargs["ymax"])
 
         if kwargs["legend_location"] == "outside":
-            plt.legend(bbox_to_anchor=(1.02, 1.00), loc="upper left", ncol=kwargs["legend_ncol"])
+            plt.legend(
+                bbox_to_anchor=(1.02, 1.00),
+                loc="upper left",
+                ncol=kwargs["legend_ncol"],
+            )
         else:
             plt.legend(ncol=kwargs["legend_ncol"])
 
@@ -211,7 +226,7 @@ class ScatterMatplotlib(ParentMatplotlib):
         cmap :str
         colorbar_location:str
         legend_location:str #{inside, outside}
-        legend_ncol:int 
+        legend_ncol:int
     """
 
     def __init__(self, **kwargs) -> None:
@@ -269,7 +284,11 @@ class ScatterMatplotlib(ParentMatplotlib):
             plt.ylim(kwargs["ymin"], kwargs["ymax"])
 
         if kwargs["legend_location"] == "outside":
-            plt.legend(bbox_to_anchor=(1.02, 1.00), loc="upper left", ncol=kwargs["legend_ncol"])
+            plt.legend(
+                bbox_to_anchor=(1.02, 1.00),
+                loc="upper left",
+                ncol=kwargs["legend_ncol"],
+            )
         else:
             plt.legend(ncol=kwargs["legend_ncol"])
 
@@ -302,7 +321,7 @@ class StackMatplotlib(ParentMatplotlib):
         lows :List[List[float]]
         alpha :float
         legend_location:str #{inside, outside}
-        legend_ncol:int 
+        legend_ncol:int
     """
 
     def __init__(self, **kwargs) -> None:
@@ -323,7 +342,11 @@ class StackMatplotlib(ParentMatplotlib):
             plt.ylim(kwargs["ymin"], kwargs["ymax"])
 
         if kwargs["legend_location"] == "outside":
-            plt.legend(bbox_to_anchor=(1.02, 1.00), loc="upper left", ncol=kwargs["legend_ncol"])
+            plt.legend(
+                bbox_to_anchor=(1.02, 1.00),
+                loc="upper left",
+                ncol=kwargs["legend_ncol"],
+            )
         else:
             plt.legend(ncol=kwargs["legend_ncol"])
 
@@ -353,7 +376,7 @@ class BarMatplotlib(ParentMatplotlib):
         x_numticks :None
         y_numticks :int # or None
         legend_location :str
-        legend_ncol:int 
+        legend_ncol:int
     """
 
     def __init__(self, **kwargs) -> None:
@@ -381,7 +404,11 @@ class BarMatplotlib(ParentMatplotlib):
             plt.ylim(kwargs["ymin"], kwargs["ymax"])
 
         if kwargs["legend_location"] == "outside":
-            plt.legend(bbox_to_anchor=(1.02, 1.00), loc="upper left", ncol=kwargs["legend_ncol"])
+            plt.legend(
+                bbox_to_anchor=(1.02, 1.00),
+                loc="upper left",
+                ncol=kwargs["legend_ncol"],
+            )
         else:
             plt.legend(ncol=kwargs["legend_ncol"])
 
@@ -593,7 +620,7 @@ class ImshowMatplotlib(ParentMatplotlib):
         z_numticks :int # or None
         alpha :float
         legend_location :str
-        legend_ncol:int 
+        legend_ncol:int
         colorbar_location :str
         interpolation :str
         cmap :str
@@ -610,7 +637,7 @@ class ImshowMatplotlib(ParentMatplotlib):
                 cmap=color_map,
                 origin="lower",
                 aspect="auto",
-                interpolation="none" # default interpolation is nearst, set it do none
+                interpolation="none",  # default interpolation is nearst, set it do none
             )
             legend_patches = []
             for ind, note in enumerate(kwargs["legends"]):
@@ -622,7 +649,7 @@ class ImshowMatplotlib(ParentMatplotlib):
                     bbox_to_anchor=(1.02, 1.00),
                     loc="upper left",
                     borderaxespad=0,
-                    ncol=kwargs["legend_ncol"]
+                    ncol=kwargs["legend_ncol"],
                 )
             else:
                 plt.legend(handles=legend_patches, ncol=kwargs["legend_ncol"])
@@ -680,7 +707,7 @@ class PcolormeshMatplotlib(ParentMatplotlib):
         z_numticks :int # or None
         alpha :float
         legend_location :str
-        legend_ncol:int 
+        legend_ncol:int
         colorbar_location :str
         cmap :str
     """
@@ -723,7 +750,7 @@ class PcolormeshMatplotlib(ParentMatplotlib):
                     bbox_to_anchor=(1.02, 1.00),
                     loc="upper left",
                     borderaxespad=0,
-                    ncol=kwargs["legend_ncol"]
+                    ncol=kwargs["legend_ncol"],
                 )
             else:
                 plt.legend(handles=legend_patches, ncol=kwargs["legend_ncol"])
@@ -829,12 +856,14 @@ class ThreeDimensionMatplotlib(ParentMatplotlib):
                 label=kwargs["zlabel"],
                 format=FormatStrFormatter(f"""%.{kwargs["z_precision"]}f"""),
                 location=kwargs["colorbar_location"],
-                pad=0.2
+                pad=0.2,
             )
         else:
             cbar = plt.colorbar(
-                im, label=kwargs["zlabel"], location=kwargs["colorbar_location"],
-                pad=0.2
+                im,
+                label=kwargs["zlabel"],
+                location=kwargs["colorbar_location"],
+                pad=0.2,
             )
 
         if kwargs["z_numticks"] != None:
@@ -842,7 +871,9 @@ class ThreeDimensionMatplotlib(ParentMatplotlib):
             cbar.update_ticks()
 
         ax.set_zlabel(kwargs["zlabel"])
-        ax.zaxis.set_major_formatter(FormatStrFormatter(f"""%.{kwargs["z_precision"]}f"""))
+        ax.zaxis.set_major_formatter(
+            FormatStrFormatter(f"""%.{kwargs["z_precision"]}f""")
+        )
         ax.zaxis.set_major_locator(LinearLocator(numticks=kwargs["z_numticks"]))
         self.set_xytick_precision_xyt_label(**kwargs)
 
@@ -895,7 +926,9 @@ class ContourMatplotlib(ParentMatplotlib):
                 location=kwargs["colorbar_location"],
             )
         else:
-            cbar = plt.colorbar(label=kwargs["zlabel"], location=kwargs["colorbar_location"])
+            cbar = plt.colorbar(
+                label=kwargs["zlabel"], location=kwargs["colorbar_location"]
+            )
 
         if kwargs["z_numticks"] != None:
             cbar.locator = LinearLocator(numticks=kwargs["z_numticks"])

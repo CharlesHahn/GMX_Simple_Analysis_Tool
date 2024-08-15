@@ -10,7 +10,6 @@ This DCCM module contains:
 
 This file is provided to you by GPLv3 license."""
 
-
 import os
 import sys
 import argparse

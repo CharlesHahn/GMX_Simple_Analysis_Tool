@@ -113,7 +113,7 @@ If you used DuIvyTools in your research, cite it by doi please.
 - [x] set the number of ticks
 - [x] speed up the xpm transforming process
 - [x] pmf xvg parsing problem
-- [ ] add original xvg data to smv plot, -smv reset
+- [x] add original xvg data to smv plot, -smv reset
 
 ## what's new in v0.5.4
 
@@ -127,6 +127,7 @@ If you used DuIvyTools in your research, cite it by doi please.
 8. fixed the bug about z_precision in 3d plot
 9. update the xvg_show and xvg_compare to support data columns without titles
 10. fixed a bug in xvg_compare csv output with different length data
+11. add -smv origin mode to show original xvg data
 
 
 ## Others
