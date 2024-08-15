@@ -104,6 +104,9 @@ If you used DuIvyTools in your research, cite it by doi please.
 - [ ] easy API for draw lines with stddev (data, stddev two columns) in xvg file
 - [ ] add a command to do AND/OR set operation to hbond or sltbr existance map
 - [ ] add inter-classes to ease the use of plotting xpm or xvg data 
+
+## what's new in v0.5.4
+
 - [x] add -xp to plus or minus X or Y data, and in xpm_show cut to adjust xtick values
 - [x] set the row of legends
 - [x] to specify the figsize by commands
@@ -115,19 +118,22 @@ If you used DuIvyTools in your research, cite it by doi please.
 - [x] pmf xvg parsing problem
 - [x] add original xvg data to smv plot, -smv reset
 
-## what's new in v0.5.4
+#### new features
 
-1. cleaned the none acsii characters in dssp cmd
-2. fixed the bug of calculating the confidence interval
-3. add -xp to plus or minus data
-4. add --legend_ncol to set the number of columns of legends
-5. fixed the bug in dssp cmd about b==0
-6. add figure.figsize in DIT.mplstyle to set the size of figure
-7. add --x_numticks to set the number of ticks
-8. fixed the bug about z_precision in 3d plot
-9. update the xvg_show and xvg_compare to support data columns without titles
-10. fixed a bug in xvg_compare csv output with different length data
-11. add -smv origin mode to show original xvg data
+0. add -xp to plus or minus data
+1. add --legend_ncol to set the number of columns of legends
+2. add figure.figsize in DIT.mplstyle to set the size of figure
+3. add --x_numticks to set the number of ticks
+4. update the xvg_show and xvg_compare to support data columns without titles
+5. add -smv origin to show original xvg data
+
+#### bug fixes
+
+0. cleaned the none acsii characters in dssp cmd
+1. fixed the bug of calculating the confidence interval
+2. fixed the bug in dssp cmd about b==0
+3. fixed the bug about z_precision in 3d plot
+4. fixed a bug in xvg_compare csv output with different length data
 
 
 ## Others
