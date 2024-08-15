@@ -27,7 +27,8 @@ class Gnuplot(log):
 
     def __init__(self) -> None:
         self.style: str = ""
-        self.ntics: int = 8 # TODO
+        self.xntics: int = 8
+        self.yntics: int = 8
 
         self.outfig: str = None
         self.title: str = None
@@ -79,7 +80,9 @@ class Gnuplot(log):
             self.info(
                 "repeated values detected in xaxis, use index and set ticks by DIT"
             )
-            x_step = len(self.xdata) // self.ntics
+            if self.x_precision == None:
+                self.x_precision = 0
+            x_step = len(self.xdata) // self.xntics
             x_step = [x_step, 1][x_step == 0]
             xdata_index = [i for i in range(0, len(self.xdata), x_step)]
             gpl += """set xtics ("""
@@ -92,7 +95,9 @@ class Gnuplot(log):
             self.info(
                 "repeated values detected in yaxis, use index and set ticks by DIT"
             )
-            y_step = len(self.ydata) // self.ntics
+            if self.y_precision == None:
+                self.y_precision = 0
+            y_step = len(self.ydata) // self.yntics
             y_step = [y_step, 1][y_step == 0]
             ydata_index = [i for i in range(0, len(self.ydata), y_step)]
             gpl += """set ytics ("""
@@ -829,6 +834,8 @@ class ImshowGnuplot(ParentGnuplot):
         x_precision :int
         y_precision :int
         z_precision :int
+        x_numticks :int # or None
+        y_numticks :int # or None
         colorbar_location :str
         cmap :str
     """
@@ -887,3 +894,8 @@ class ImshowGnuplot(ParentGnuplot):
         # self.gnuplot.colorbar_location = kwargs["colorbar_location"]
         if kwargs["colorbar_location"]:
             self.warn("DIT is unable to set colorbar location for gnuplot now.")
+        
+        if kwargs["x_numticks"] != None:
+            self.gnuplot.xntics = kwargs["x_numticks"]
+        if kwargs["y_numticks"] != None:
+            self.gnuplot.yntics = kwargs["y_numticks"]

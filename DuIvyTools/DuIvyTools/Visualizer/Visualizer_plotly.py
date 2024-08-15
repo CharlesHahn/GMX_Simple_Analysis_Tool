@@ -155,9 +155,9 @@ class ParentPlotly(log):
         x_nticks = (self.nticks, kwargs["x_numticks"])[kwargs["x_numticks"] != None]
         y_nticks = (self.nticks, kwargs["y_numticks"])[kwargs["y_numticks"] != None]
         if kwargs["x_precision"] == None:
-            kwargs["x_precision"] = 1
+            kwargs["x_precision"] = 0
         if kwargs["y_precision"] == None:
-            kwargs["y_precision"] = 1
+            kwargs["y_precision"] = 0
         step = len(kwargs["xdata_list"]) // x_nticks
         step = [step, 1][step == 0]
         xdata_index = [i for i in range(0, len(kwargs["xdata_list"]), step)]
@@ -640,6 +640,8 @@ class PcolormeshPlotly(ParentPlotly):
         x_precision :int
         y_precision :int
         z_precision :int
+        x_numticks :int # or None
+        y_numticks :int # or None
         cmap :str
     """
 
@@ -730,6 +732,8 @@ class ThreeDimensionPlotly(ParentPlotly):
         x_precision :int
         y_precision :int
         z_precision :int
+        x_numticks :int # or None
+        y_numticks :int # or None
         cmap :str
     """
 
@@ -803,6 +807,10 @@ class ThreeDimensionPlotly(ParentPlotly):
             self.figure.update_traces(
                 contours_z=dict(show=True, usecolormap=True, project_z=True)
             )
+            if kwargs["x_precision"] == None:
+                kwargs["x_precision"] = 0
+            if kwargs["y_precision"] == None:
+                kwargs["y_precision"] = 0
             x_nticks = (self.nticks, kwargs["x_numticks"])[kwargs["x_numticks"] != None]
             y_nticks = (self.nticks, kwargs["y_numticks"])[kwargs["y_numticks"] != None]
             step = len(kwargs["xdata_list"]) // x_nticks
@@ -811,22 +819,20 @@ class ThreeDimensionPlotly(ParentPlotly):
             step = len(kwargs["ydata_list"]) // y_nticks
             step = [step, 1][step == 0]
             ydata_index = [i for i in range(0, len(kwargs["ydata_list"]), step)]
-            if kwargs["x_precision"] != None:
-                self.figure.update_scenes(
-                    xaxis_tickvals=xdata_index,
-                    xaxis_ticktext=[
-                        f"{kwargs['xdata_list'][x]:.{kwargs['x_precision']}f}"
-                        for x in xdata_index
-                    ],
-                )
-            if kwargs["y_precision"] != None:
-                self.figure.update_scenes(
-                    yaxis_tickvals=ydata_index,
-                    yaxis_ticktext=[
-                        f"{kwargs['ydata_list'][y]:.{kwargs['y_precision']}f}"
-                        for y in ydata_index
-                    ],
-                )
+            self.figure.update_scenes(
+                xaxis_tickvals=xdata_index,
+                xaxis_ticktext=[
+                    f"{kwargs['xdata_list'][x]:.{kwargs['x_precision']}f}"
+                    for x in xdata_index
+                ],
+            )
+            self.figure.update_scenes(
+                yaxis_tickvals=ydata_index,
+                yaxis_ticktext=[
+                    f"{kwargs['ydata_list'][y]:.{kwargs['y_precision']}f}"
+                    for y in ydata_index
+                ],
+            )
             if kwargs["z_precision"] != None:
                 self.figure.update_scenes(zaxis_tickformat=f".{kwargs['z_precision']}f")
 
@@ -850,6 +856,8 @@ class ContourPlotly(ParentPlotly):
         x_precision :int
         y_precision :int
         z_precision :int
+        x_numticks :int # or None
+        y_numticks :int # or None
         cmap :str
     """
 
