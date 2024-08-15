@@ -126,6 +126,7 @@ If you used DuIvyTools in your research, cite it by doi please.
 7. add --x_numticks to set the number of ticks
 8. fixed the bug about z_precision in 3d plot
 9. update the xvg_show and xvg_compare to support data columns without titles
+10. fixed a bug in xvg_compare csv output with different length data
 
 
 ## Others

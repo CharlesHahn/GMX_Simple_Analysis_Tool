@@ -202,9 +202,7 @@ class XVG(log):
             fo.write(outstr)
         self.info(f"dump xvg to {outxvg} successfully")
 
-    def calc_mvave(
-        self, windowsize: int, confidence: float, column_index: int
-    ) -> Tuple[List]:
+    def calc_mvave(self, windowsize: int, confidence: float, column_index: int, calc_CI: bool = True) -> Tuple[List]:
         """
         calculate the moving average of each column
 
@@ -212,6 +210,7 @@ class XVG(log):
             windowsize: the window size for calculating moving average
             confidence: the confidence to calculate interval
             conlumn_index: the index for the column to calculate
+            calc_CI: whether calculate the confidence interval or not
 
         :return:
             mvaves: a list contains moving average
@@ -232,13 +231,14 @@ class XVG(log):
         for i in range(windowsize, self.row_num):
             window_data = np.array(column_data[i - windowsize : i])
             ave = np.mean(window_data)
-            ## NOTE CI calculation should be STE, not STD; Fuck, wrong for years! fixed at 20240809
-            std = np.std(window_data, ddof=1)
-            ste = std / np.sqrt(windowsize)
-            interval = stats.norm.interval(confidence, ave, ste)
             mvaves.append(ave)
-            lows.append(interval[0])
-            highs.append(interval[1])
+            if calc_CI:
+                ## NOTE CI calculation should be STE, not STD; Fuck, wrong for years! fixed at 20240809
+                std = np.std(window_data, ddof=1)
+                ste = std / np.sqrt(windowsize)
+                interval = stats.norm.interval(confidence, ave, ste)
+                lows.append(interval[0])
+                highs.append(interval[1])
         return mvaves, highs, lows
 
     def calc_ave(

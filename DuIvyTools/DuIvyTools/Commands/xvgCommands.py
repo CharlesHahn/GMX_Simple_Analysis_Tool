@@ -170,7 +170,7 @@ class xvg_show(Command):
 class xvg_compare(Command):
     """
     Compare the data columns of different xvg files.
-    Moving averages and confidence intervals could be calculated and presented by `-smv`.
+    Moving averages with original data or confidence intervals could be calculated and presented by `-smv`.
     `-csv` allows users to dump data into csv file, by which users could convert any xvg files into csv files.
 
     :Parameters:
@@ -199,7 +199,7 @@ class xvg_compare(Command):
         -dt, --dt (optional)
                 specify the index step of data to present
         -smv, --showMV (optional)
-                show the moving averages and confidence intervals
+                show the moving averages with original data or confidence intervals; default is no; if -smv is set, the original data will be shown as background; 'CI' for showing the moving averages with confidence interval
         -ws, --windowsize (optional)
                 set the windowsize of calculating moving averages, default to 50
         -cf, --confidence (optional)
@@ -242,7 +242,8 @@ class xvg_compare(Command):
         dit xvg_compare -f RMSD.xvg Gyrate.xvg -c 1 1 -b 1000 -e 2001 -dt 10
         dit xvg_compare -f RMSD.xvg Gyrate.xvg -c 1 1 -b 10000 -ns -o test.png
         dit xvg_compare -f RMSD.xvg Gyrate.xvg -c 1 1 -xs 0.001 -x Time(ns) -y nm
-        dit xvg_compare -f Gyrate.xvg -c 1,2,3 -smv -ws 100 -cf 0.90 --alpha 0.4
+        dit xvg_compare -f Gyrate.xvg -c 1,2,3 -smv --alpha 0.4
+        dit xvg_compare -f Gyrate.xvg -c 1,2,3 -smv CI -ws 100 -cf 0.90 --alpha 0.4
         dit xvg_compare -f Gyrate.xvg -c 1,2,3 -smv -eg plotly -csv gyrate.csv
         dit xvg_compare -f Gyrate.xvg -c 1-4 -eg gnuplot --legend_location outside
         dit xvg_compare -f RMSD.xvg Gyrate.xvg -c 1 1 --x_numticks 9 --y_numticks 5 -xmin 0 -xmax 40000 -ymin 0
@@ -298,7 +299,7 @@ class xvg_compare(Command):
                 elif self.parm.showMV == "origin":
                     ## NOTE yshrink and yplus are used to the results of moving averagesand confidence intervals
                     aves, _, _ = xvg.calc_mvave(
-                        self.parm.windowsize, self.parm.confidence, column_index
+                        self.parm.windowsize, self.parm.confidence, column_index, calc_CI=False
                     )
                     origin = [y * self.parm.yshrink + self.parm.yplus for y in xvg.data_columns[column_index][begin:end:dt]]
                     origins_list.append(origin)
