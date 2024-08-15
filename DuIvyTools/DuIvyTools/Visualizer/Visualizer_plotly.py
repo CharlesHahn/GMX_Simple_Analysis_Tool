@@ -267,6 +267,18 @@ class LinePlotly(ParentPlotly):
                         showlegend=False,
                     )
                 )
+            if "origins" in kwargs and len(kwargs["origins"]) != 0:
+                rgb = self.get_color(i)
+                rgba = f"rgba({rgb[4:-1]},{kwargs['alpha']})"
+                self.figure.add_trace(
+                    go.Scatter(
+                        x=kwargs["xdata_list"][i],
+                        y=kwargs["origins"][i],
+                        line=dict(color=rgba),
+                        showlegend=False,
+                    )
+                )
+
 
         self.set_xyprecision_xyt_label(**kwargs)
         self.set_xy_min_max(**kwargs)

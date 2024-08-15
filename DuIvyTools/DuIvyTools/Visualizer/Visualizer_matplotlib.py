@@ -152,22 +152,20 @@ class LineMatplotlib(ParentMatplotlib):
     def __init__(self, **kwargs) -> None:
         super().__init__()
 
-        if "origins" not in kwargs or len(kwargs["origins"]) == 0:
-            for i, data in enumerate(kwargs["data_list"]):
-                if len(kwargs["highs"]) != 0 and len(kwargs["lows"]) != 0:
-                    plt.fill_between(
-                        kwargs["xdata_list"][i],
-                        kwargs["highs"][i],
-                        kwargs["lows"][i],
-                        alpha=kwargs["alpha"],
-                    )
-                plt.plot(kwargs["xdata_list"][i], data, label=kwargs["legends"][i])
-        else:
-            ax = plt.gca()
-            for i, data in enumerate(kwargs["data_list"]):
-                color = ax._get_lines.get_next_color()
+        ax = plt.gca()
+        for i, data in enumerate(kwargs["data_list"]):
+            color = ax._get_lines.get_next_color()
+            if "origins" in kwargs and len(kwargs["origins"]) != 0:
                 plt.plot(kwargs["xdata_list"][i], kwargs["origins"][i], color=color, alpha=kwargs["alpha"])
-                plt.plot(kwargs["xdata_list"][i], data, label=kwargs["legends"][i], color=color)
+            if len(kwargs["highs"]) != 0 and len(kwargs["lows"]) != 0:
+                plt.fill_between(
+                    kwargs["xdata_list"][i],
+                    kwargs["highs"][i],
+                    kwargs["lows"][i],
+                    color=color,
+                    alpha=kwargs["alpha"],
+                )
+            plt.plot(kwargs["xdata_list"][i], data, label=kwargs["legends"][i], color=color)
 
         if kwargs["xmin"] != None or kwargs["xmax"] != None:
             plt.xlim(kwargs["xmin"], kwargs["xmax"])
