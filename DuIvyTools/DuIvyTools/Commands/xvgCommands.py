@@ -408,7 +408,6 @@ class xvg_compare(Command):
 
     def dump2csv(self, kwargs):
         """dump data into csv with MORE THAN ONE input xvgs"""
-        ## TODO the data from different xvgs may have different rows??
         ## merge xvg2csv and xvg_mvave functions here
         if self.parm.showMV == "CI":
             with open(self.parm.csv, "w") as fo:
@@ -417,12 +416,16 @@ class xvg_compare(Command):
                     leg = leg.strip("$")
                     fo.write(f"""mvave_{leg},high_{leg},low_{leg},""")
                 fo.write("\n")
-                for r in range(len(kwargs["data_list"][0])):
+                maxlen = max(len(dlist) for dlist in kwargs["data_list"])
+                for r in range(maxlen):
                     for c in range(len(kwargs["data_list"])):
-                        fo.write(f"""{kwargs["xdata_list"][c][r]:.8f},""")
-                        fo.write(
-                            f"""{kwargs["data_list"][c][r]:.8f},{kwargs["highs"][c][r]:.8f},{kwargs["lows"][c][r]:.8f},"""
-                        )
+                        if r >= len(kwargs["data_list"][c]):
+                            fo.write(",,,,")
+                        else:
+                            fo.write(f"""{kwargs["xdata_list"][c][r]:.8f},""")
+                            fo.write(
+                                f"""{kwargs["data_list"][c][r]:.8f},{kwargs["highs"][c][r]:.8f},{kwargs["lows"][c][r]:.8f},"""
+                            )
                     fo.write("\n")
         elif self.parm.showMV == "origin":
             with open(self.parm.csv, "w") as fo:
@@ -431,12 +434,16 @@ class xvg_compare(Command):
                     leg = leg.strip("$")
                     fo.write(f"""mvave_{leg},origin_{leg},""")
                 fo.write("\n")
-                for r in range(len(kwargs["data_list"][0])):
+                maxlen = max(len(dlist) for dlist in kwargs["data_list"])
+                for r in range(maxlen):
                     for c in range(len(kwargs["data_list"])):
-                        fo.write(f"""{kwargs["xdata_list"][c][r]:.8f},""")
-                        fo.write(
-                            f"""{kwargs["data_list"][c][r]:.8f},{kwargs["origins"][c][r]:.8f},"""
-                        )
+                        if r >= len(kwargs["data_list"][c]):
+                            fo.write(",,,")
+                        else:
+                            fo.write(f"""{kwargs["xdata_list"][c][r]:.8f},""")
+                            fo.write(
+                                f"""{kwargs["data_list"][c][r]:.8f},{kwargs["origins"][c][r]:.8f},"""
+                            )
                     fo.write("\n")
         else:
             with open(self.parm.csv, "w") as fo:
