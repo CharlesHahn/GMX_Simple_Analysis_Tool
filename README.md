@@ -125,7 +125,7 @@ If you used DuIvyTools in your research, cite it by doi please.
 6. add figure.figsize in DIT.mplstyle to set the size of figure
 7. add --x_numticks to set the number of ticks
 8. fixed the bug about z_precision in 3d plot
-9. update the xvg_show to support data columns without titles
+9. update the xvg_show and xvg_compare to support data columns without titles
 
 
 ## Others

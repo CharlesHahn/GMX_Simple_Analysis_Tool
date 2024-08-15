@@ -279,12 +279,12 @@ class xvg_compare(Command):
         begin, end, dt = self.parm.begin, self.parm.end, self.parm.dt
         xvgs = [XVG(xvg) for xvg in self.parm.input]
         self.file = xvgs[0]
-        legends, xdata, data_list, highs_list, lows_list = [], [], [], [], []
+        legends, xdata, data_list, highs_list, lows_list, origins_list = [], [], [], [], [], []
         for id, column_indexs in enumerate(self.parm.columns):
             xvg = xvgs[id]
             for column_index in column_indexs:
                 xvg.check_column_index(column_index)
-                if self.parm.showMV:
+                if self.parm.showMV == "CI":
                     ## NOTE yshrink and yplus are used to the results of moving averagesand confidence intervals
                     aves, highs, lows = xvg.calc_mvave(
                         self.parm.windowsize, self.parm.confidence, column_index
@@ -295,6 +295,13 @@ class xvg_compare(Command):
                     lows_list.append(
                         [y * self.parm.yshrink + self.parm.yplus for y in lows[begin:end:dt]]
                     )
+                elif self.parm.showMV == "origin":
+                    ## NOTE yshrink and yplus are used to the results of moving averagesand confidence intervals
+                    aves, _, _ = xvg.calc_mvave(
+                        self.parm.windowsize, self.parm.confidence, column_index
+                    )
+                    origin = [y * self.parm.yshrink + self.parm.yplus for y in xvg.data_columns[column_index][begin:end:dt]]
+                    origins_list.append(origin)
                 else:
                     aves = xvg.data_columns[column_index]
                 data_list.append([y * self.parm.yshrink + self.parm.yplus for y in aves[begin:end:dt]])
@@ -328,6 +335,7 @@ class xvg_compare(Command):
             "y_numticks": self.parm.y_numticks,
             "highs": highs_list,
             "lows": lows_list,
+            "origins": origins_list,
             "alpha": self.sel_parm(self.parm.alpha, 0.4),
             "legend_location": self.sel_parm(self.parm.legend_location, "inside"),
             "legend_ncol": self.parm.legend_ncol,
@@ -357,7 +365,7 @@ class xvg_compare(Command):
     def dump2csv_1_input(self, kwargs):
         """dump data into csv with only ONE input xvg"""
         ## merge xvg2csv and xvg_mvave functions here
-        if self.parm.showMV:
+        if self.parm.showMV == "CI":
             with open(self.parm.csv, "w") as fo:
                 fo.write(f"""{kwargs["xlabel"].strip("$")}""")
                 for leg in kwargs["legends"]:
@@ -369,6 +377,20 @@ class xvg_compare(Command):
                     for c in range(len(kwargs["data_list"])):
                         fo.write(
                             f""",{kwargs["data_list"][c][r]:.8f},{kwargs["highs"][c][r]:.8f},{kwargs["lows"][c][r]:.8f}"""
+                        )
+                    fo.write("\n")
+        elif self.parm.showMV == "origin":
+            with open(self.parm.csv, "w") as fo:
+                fo.write(f"""{kwargs["xlabel"].strip("$")}""")
+                for leg in kwargs["legends"]:
+                    leg = leg.strip("$")
+                    fo.write(f""",mvave_{leg},origin_{leg}""")
+                fo.write("\n")
+                for r in range(len(kwargs["xdata_list"][0])):
+                    fo.write(f"""{kwargs["xdata_list"][0][r]:.8f}""")
+                    for c in range(len(kwargs["data_list"])):
+                        fo.write(
+                            f""",{kwargs["data_list"][c][r]:.8f},{kwargs["origins"][c][r]:.8f}"""
                         )
                     fo.write("\n")
         else:
@@ -386,8 +408,9 @@ class xvg_compare(Command):
 
     def dump2csv(self, kwargs):
         """dump data into csv with MORE THAN ONE input xvgs"""
+        ## TODO the data from different xvgs may have different rows??
         ## merge xvg2csv and xvg_mvave functions here
-        if self.parm.showMV:
+        if self.parm.showMV == "CI":
             with open(self.parm.csv, "w") as fo:
                 for leg in kwargs["legends"]:
                     fo.write(f"""{kwargs["xlabel"].strip("$")},""")
@@ -399,6 +422,20 @@ class xvg_compare(Command):
                         fo.write(f"""{kwargs["xdata_list"][c][r]:.8f},""")
                         fo.write(
                             f"""{kwargs["data_list"][c][r]:.8f},{kwargs["highs"][c][r]:.8f},{kwargs["lows"][c][r]:.8f},"""
+                        )
+                    fo.write("\n")
+        elif self.parm.showMV == "origin":
+            with open(self.parm.csv, "w") as fo:
+                for leg in kwargs["legends"]:
+                    fo.write(f"""{kwargs["xlabel"].strip("$")},""")
+                    leg = leg.strip("$")
+                    fo.write(f"""mvave_{leg},origin_{leg},""")
+                fo.write("\n")
+                for r in range(len(kwargs["data_list"][0])):
+                    for c in range(len(kwargs["data_list"])):
+                        fo.write(f"""{kwargs["xdata_list"][c][r]:.8f},""")
+                        fo.write(
+                            f"""{kwargs["data_list"][c][r]:.8f},{kwargs["origins"][c][r]:.8f},"""
                         )
                     fo.write("\n")
         else:

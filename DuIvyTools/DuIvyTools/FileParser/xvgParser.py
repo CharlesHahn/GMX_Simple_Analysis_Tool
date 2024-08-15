@@ -223,7 +223,6 @@ class XVG(log):
             self.error("windowsize value is not proper")
         if confidence <= 0 or confidence >= 1:
             self.error("confidence value is not proper, it should be in (0,1)")
-
         if column_index < 0 or column_index >= self.column_num:
             self.error("wrong selection of column_index to calculate moving averages")
         column_data = self.data_columns[column_index]

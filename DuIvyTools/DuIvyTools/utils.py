@@ -197,8 +197,12 @@ class Parameters(log):
         parser.add_argument(
             "-smv",
             "--showMV",
-            action="store_true",
-            help="whether to show moving averages of data",
+            type=str, 
+            nargs="?", 
+            const="origin", 
+            default="",
+            choices=["", "CI", "origin"],
+            help="whether to show moving averages of data, default is no; if -smv is set, the original data will be shown as background; 'CI' for showing the moving averages with confidence interval",
         )
         parser.add_argument(
             "-ws",
