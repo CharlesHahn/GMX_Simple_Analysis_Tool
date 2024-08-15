@@ -1,16 +1,28 @@
-# define line styles
+# define line styles; the color #AARRGGBB
 set style line 1 lt 1 lc rgb "#38A7D0"
+set style line 101 lt 1 lc rgb "#7738A7D0"
 set style line 2 lt 1 lc rgb "#F67088"
+set style line 102 lt 1 lc rgb "#77F67088"
 set style line 3 lt 1 lc rgb "#66C2A5"
+set style line 103 lt 1 lc rgb "#7766C2A5"
 set style line 4 lt 1 lc rgb "#FC8D62"
+set style line 104 lt 1 lc rgb "#77FC8D62"
 set style line 5 lt 1 lc rgb "#8DA0CB"
+set style line 105 lt 1 lc rgb "#778DA0CB"
 set style line 6 lt 1 lc rgb "#E78AC3"
+set style line 106 lt 1 lc rgb "#77E78AC3"
 set style line 7 lt 1 lc rgb "#A6D854"
+set style line 107 lt 1 lc rgb "#77A6D854"
 set style line 8 lt 1 lc rgb "#FFD92F"
+set style line 108 lt 1 lc rgb "#77FFD92F"
 set style line 9 lt 1 lc rgb "#E5C494"
+set style line 109 lt 1 lc rgb "#77E5C494"
 set style line 10 lt 1 lc rgb "#B3B3B3"
+set style line 1010 lt 1 lc rgb "#77B3B3B3"
 set style line 11 lt 1 lc rgb "#66C2A5"
+set style line 1011 lt 1 lc rgb "#7766C2A5"
 set style line 12 lt 1 lc rgb "#FC8D62"
+set style line 1012 lt 1 lc rgb "#77FC8D62"
 # define palette
 set palette defined ( 0 '#2166AC',\
                     1 '#4393C3',\

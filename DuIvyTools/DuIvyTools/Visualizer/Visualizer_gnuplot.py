@@ -27,7 +27,7 @@ class Gnuplot(log):
 
     def __init__(self) -> None:
         self.style: str = ""
-        self.ntics: int = 8
+        self.ntics: int = 8 # TODO
 
         self.outfig: str = None
         self.title: str = None
@@ -49,6 +49,7 @@ class Gnuplot(log):
         self.data: List[List[float]] = None
         self.highs: List[List[float]] = None
         self.lows: List[List[float]] = None
+        self.origins: List[List[float]] = None
         self.color_list: List[List[float]] = None
         self.colorbar_location: str = None
         self.legend_location: str = "inside"
@@ -362,7 +363,7 @@ set colorbox vertical origin screen 0.9, 0.2 size screen 0.05, 0.6 front  noinve
 
     def line_plot(self, gpl: str) -> str:
         """dump data of line plot to string"""
-        if self.data and self.legends and len(self.highs) == 0 and len(self.lows) == 0:
+        if self.data and self.legends and len(self.highs) == 0 and len(self.lows) == 0 and len(self.origins) == 0:
             for c in range(len(self.data)):
                 gpl += f"\n$data{c} << EOD\n"
                 for r in range(len(self.xdata[c])):
@@ -372,8 +373,9 @@ set colorbox vertical origin screen 0.9, 0.2 size screen 0.05, 0.6 front  noinve
             for c in range(len(self.data)):
                 gpl += f"""$data{c} u 1:2 title "{self.legends[c]}" with lines linestyle {c+1}, \\\n"""
             gpl += "\n"
+            return gpl
 
-        if self.data and self.legends and len(self.highs) != 0 and len(self.lows) != 0:
+        if self.data and self.legends and len(self.highs) != 0 and len(self.lows) != 0 and len(self.origins) == 0:
             gpl += f"""set style fill transparent solid {self.alpha} noborder\n"""
             for c in range(len(self.data)):
                 gpl += f"\n$data{c} << EOD\n"
@@ -384,8 +386,19 @@ set colorbox vertical origin screen 0.9, 0.2 size screen 0.05, 0.6 front  noinve
             for c in range(len(self.data)):
                 gpl += f"""$data{c} using 1:3:4 with filledcurves notitle linestyle {c+1}, $data{c} u 1:2 title "{self.legends[c]}" with lines linestyle {c+1}, \\\n"""
             gpl += "\n"
+            return gpl
 
-        return gpl
+        if self.data and self.legends and len(self.highs) == 0 and len(self.lows) == 0 and len(self.origins) != 0:
+            for c in range(len(self.data)):
+                gpl += f"\n$data{c} << EOD\n"
+                for r in range(len(self.xdata[c])):
+                    gpl += f"""{self.xdata[c][r]} {self.data[c][r]} {self.origins[c][r]} \n"""
+                gpl += "EOD\n\n"
+            gpl += f"plot [{self.xmin}:{self.xmax}][{self.ymin}:{self.ymax}] "
+            for c in range(len(self.data)):
+                gpl += f"""$data{c} using 1:3 with lines notitle linestyle 10{c+1}, $data{c} u 1:2 title "{self.legends[c]}" with lines linestyle {c+1}, \\\n"""
+            gpl += "\n"
+            return gpl
 
     def bar_plot(self, gpl: str) -> str:
         """dump data of bar plot to string"""
@@ -535,6 +548,7 @@ class LineGnuplot(ParentGnuplot):
         y_precision :int
         highs :List[List[float]]
         lows :List[List[float]]
+        origins :List[List[float]]
         alpha :float
         legend_location :str # {inside, outside}
     """
@@ -568,6 +582,10 @@ class LineGnuplot(ParentGnuplot):
         self.gnuplot.lows = kwargs["lows"]
         self.gnuplot.alpha = kwargs["alpha"]
         self.gnuplot.legend_location = kwargs["legend_location"]
+        if "origins" in kwargs and len(kwargs["origins"]) != 0:
+            self.gnuplot.origins = kwargs["origins"]
+        else:
+            self.gnuplot.origins = []
 
 
 class StackGnuplot(LineGnuplot):
