@@ -70,6 +70,7 @@ class LinePlotext(ParentPlotext):
         y_precision :int
         highs :List[List[float]]
         lows :List[List[float]]
+        origins :List[List[float]]
     """
 
     def __init__(self, **kwargs) -> None:
@@ -78,6 +79,8 @@ class LinePlotext(ParentPlotext):
         for i, data in enumerate(kwargs["data_list"]):
             if len(kwargs["highs"]) != 0 and len(kwargs["lows"]) != 0:
                 self.warn("unable to plot intervals by plotext, turn to line plots")
+            if "origins" in kwargs and len(kwargs["origins"]) != 0:
+                self.warn("unable to plot original data by plotext, turn to line plots")
             # plt.plot(kwargs["xdata"], data, label=kwargs["legends"][i], color=self.hex2rgb(self.style["color_cycle"][i]))
             plt.plot(kwargs["xdata_list"][i], data, label=kwargs["legends"][i])
 

@@ -228,6 +228,7 @@ class LinePlotly(ParentPlotly):
         y_precision :int
         highs :List[List[float]]
         lows :List[List[float]]
+        origins :List[List[float]]
         alpha :float
     """
 
