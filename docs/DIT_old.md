@@ -6,9 +6,9 @@
 
 
 
-**本文介绍的是v0.4.8及以前的旧版本DIT**。
+**本文介绍的是v0.4.8及以前的旧版本DIT**。v0.4.8及以前的DIT版本已经停止维护，已知bug不再修复，请尽量使用最新版本的DIT。
 
-如果你使用的是v0.5.0，请将下文中所有的`dit`替换成`dito`执行命令。
+版本v0.5.0及以后版本的DIT中也打包了v0.4.8，如果你使用的是v0.5.0及以后版本的DIT，可以将下文中所有的`dit`替换成`dito`执行v0.4.8版本的命令。
 
 
 
@@ -19,9 +19,6 @@ DIT可以通过源码安装(https://github.com/CharlesHahn/DuIvyTools)，也可�
 ```bash
 pip install DuIvyTools
 ```
-
-目前DIT版本为v0.5.0。
-
 
 
 ## HELP
@@ -673,6 +670,7 @@ dit hbond -f test.gro -n hbond.ndx -m hbond.xpm -hnf id -so OR0-2,4
 
 ![hbond_id](static/hbond_5.png)
 
+**DuIvy开发了模拟自动化分析软件DuIvyProcedures，内部包含自动化的氢键处理工具，感兴趣的同学可以查看：https://duivyprocedures-docs.readthedocs.io/en/latest/ **
 
 ### dssp
 

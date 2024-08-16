@@ -18,10 +18,10 @@
 # -- Project information -----------------------------------------------------
 
 project = 'DuIvyTools'
-copyright = '2023, CharlesHahn, 杜艾维'
-author = 'CharlesHahn'
-version = '0.5.0'
-release = '0.5.0'
+copyright = '2022, CharlesHahn, 杜艾维, 杜若'
+author = 'CharlesHahn, 杜艾维, 杜若'
+version = '0.6.0'
+release = '0.6.0'
 
 
 # -- General configuration ---------------------------------------------------
