@@ -1,28 +1,23 @@
-# DuIvyTools v0.5.0
+# DuIvyTools v0.6.0
 
 ![](static/cover.png)
 
-历时两个月的紧张开发，DuIvyTools终于基本重构完成。
+
+同学们好，欢迎阅读DuIvyTools的文档。DuIvyTools是一个基于命令行的MD分析工具，可以对GROMACS的结果文件进行快速的可视化和分析。
 
 
+相较于去年发布的v0.5.0，在v0.6.0中有如下更新和改进：
 
-从用户层面讲，DIT v0.5.0 新增的特性如下：
-
-1. 新增了plotly、Gnuplot、以及plotext绘图引擎
-   1. plotly: 强交互性，用户可以通过plotly的格式控制文件精调图片的每个细节
-   2. Gnuplot: 老牌开源绘图软件，需要用户自行安装好Gnuplot并设置好环境变量（可通过`gnuplot`命令调用），出图质量较高且Gnuplot用户可以方便地自定义图片的每个细节
-   3. plotext: 命令行绘图，只支持最简单的数据可视化（折线图和尺寸较小的image）
-   4. 原有的matplotlib: 优化了一些绘图的细节，增加了对图像上元素的控制，colorbar、legend，colormap等都支持用户通过命令行或matplotlib的格式控制文件进行调整
-2. 所有命令统一使用一套命令参数，降低使用成本
-3. 更强更稳健的文件解析器
-
+1. 新增参数`-xp`、`-yp`、`-zp`用于对数据做加减操作，可用于自定义坐标轴刻度标签。
+2. 增加`--legend_ncol`参数用于指定图例的列数，方便绘图，仅对matplotlib绘图引擎有效。
+3. 在DIT.mplstyle中新增了`figure.figsize`参数，方便用户自定义图片尺寸
+4. 新增了`--x_numticks`、`--y_numticks`、`--z_numticks`参数，用于指定坐标轴刻度标签的数量，对matplotlib绘图引擎有效，至于plotly和gnuplot，则只对X和Y轴有重复数据的矩阵图绘制有效。
+5. 增加了对无列名数据文件的支持；在如pmf.xvg中，包含了多列没有列名的数据，原本DIT会将之当成字符列，现在DIT可以自动处理成数字了。
+6. 修复了计算置信区间的bug，`-smv`现在可以赋予参数，默认是显示原始数据作为背景，滑动平均作为前景；如果`-smv CI`，则背景为置信区间。
+7. 修复了一系列小问题。
 
 
-从开发角度讲，DIT v0.5.0和之前的DIT v0.4.8基本上没有什么相同点了。为了程序的简洁可靠，一些v0.4.8中的复杂逻辑的命令被删除了（`hbond`，`pipi_dist_ang`, `dssp`），但同时为了对用户保留原有的功能，现在的打包中也包含了修复了部分bug的v0.4.8以对v0.5.0中删除的功能进行补充。这两个版本在安装之后，可以分别使用`dit` (v0.5.0) 和 `dito` (v0.4.8) 调用，互不干扰。在后续的版本中，`dito` v0.4.8将被删除。
-
-
-
-在DIT使用过程中，如果您遇到任何程序问题或者疑问，都请在DuIvy飞书群中新建话题并提问和讨论，很抱歉因为工作繁忙我可能不会及时回复，但是我每天会抽时间查看并尝试解决问题。
+在DIT使用过程中，如果您遇到任何程序问题或者疑问，都请在DuIvy飞书群中新建话题并提问和讨论，很抱歉因为工作繁忙我可能不会及时回复，但是我会抽时间查看并尝试解决问题。如果问题比较急，可以尝试通过[杜艾维]公众号后台联系我。
 
 ![Feishu(Lark)](static/feishu.png)
 
@@ -36,15 +31,16 @@ DIT可以通过源码安装(https://github.com/CharlesHahn/DuIvyTools)，也可�
 pip install DuIvyTools
 ```
 
+如果网速较慢，也可以使用国内的源，例如使用清华源：
+
+```bash
+pip install DuIvyTools -i https://pypi.tuna.tsinghua.edu.cn/simple
+```
 
 
-## 命令行
+## 帮助信息
 
 `dit`是一个基于命令行的软件。用户在命令行里输入命令，对数据进行操作和绘图。
-
-
-
-### 帮助信息
 
 用户可以通过`dit`命令获取所有可用的命令的名字及简短的信息：
 
@@ -100,13 +96,13 @@ Cite DuIvyTools by DOI at https://doi.org/10.5281/zenodo.6339993
 Have a good day !
 ```
 
-还可以通过`dit -h`可以获取DIT中的所有参数，以及通过`dit <command> -h`可以获得具体命令的相关信息和输入参数。
+还可以通过`dit -h`可以获取DIT中的所有参数，以及通过`dit <command> -h`可以获得具体命令的相关信息及输入参数。
 
 
 
-### 参数介绍
+## 命令行参数
 
-以下是DIT中的全部参数：
+输入`dit -h`可以查看DIT中的全部参数：
 
 ```bash
 DuIvyTools: A Simple MD Analysis Tool
@@ -114,7 +110,7 @@ DuIvyTools: A Simple MD Analysis Tool
 positional arguments:
   cmd                   command of DIT to run
 
-optional arguments:
+options:
   -h, --help            show this help message and exit
   -f INPUT [INPUT ...], --input INPUT [INPUT ...]
                         specify the input file or files
@@ -122,7 +118,8 @@ optional arguments:
                         specify the output file
   -ns, --noshow         not to show figure
   -c COLUMNS [COLUMNS ...], --columns COLUMNS [COLUMNS ...]
-                        select the column indexs for visualization or calculation, or input numerical list
+                        select the column indexs for visualization or
+                        calculation, or input numerical list
   -l LEGENDS [LEGENDS ...], --legends LEGENDS [LEGENDS ...]
                         specify the legends of figure or data
   -b BEGIN, --begin BEGIN
@@ -161,26 +158,57 @@ optional arguments:
                         modify Y values by multipling yshrink, default to 1.0
   -zs ZSHRINK, --zshrink ZSHRINK
                         modify Z values by multipling zshrink, default to 1.0
-  -smv, --showMV        whether to show moving averages of data
+  -xp XPLUS, --xplus XPLUS
+                        modify X values by plusing xplus, default to 0.0
+  -yp YPLUS, --yplus YPLUS
+                        modify Y values by plusing yplus, default to 0.0
+  -zp ZPLUS, --zplus ZPLUS
+                        modify Z values by plusing zplus, default to 0.0
+  --x_numticks X_NUMTICKS
+                        specify the xtick number for visualization
+  --y_numticks Y_NUMTICKS
+                        specify the ytick number for visualization
+  --z_numticks Z_NUMTICKS
+                        specify the ztick number for visualization
+  -smv [{,CI,origin}], --showMV [{,CI,origin}]
+                        whether to show moving averages of data, default is
+                        no; if '-smv' is set, the original data will be shown as
+                        background; 'CI' for showing the moving averages with
+                        confidence interval
   -ws WINDOWSIZE, --windowsize WINDOWSIZE
-                        window size for moving average calculation, default to 50
+                        window size for moving average calculation, default to
+                        50
   -cf CONFIDENCE, --confidence CONFIDENCE
-                        confidence for confidence interval calculation, default to 0.95
+                        confidence for confidence interval calculation,
+                        default to 0.95
   --alpha ALPHA         the alpha of figure items
   -csv CSV, --csv CSV   store data into csv file
   -eg {matplotlib,plotext,plotly,gnuplot}, --engine {matplotlib,plotext,plotly,gnuplot}
-                        specify the engine for plotting: 'matplotlib', 'plotext', 'plotly', 'gnuplot'
+                        specify the engine for plotting: 'matplotlib',
+                        'plotext', 'plotly', 'gnuplot'
   -cmap COLORMAP, --colormap COLORMAP
-                        specify the colormap applied for figures, available for 'matplotlib' and 'plotly' engine
+                        specify the colormap applied for figures, available
+                        for 'matplotlib' and 'plotly' engine
   --colorbar_location {None,left,top,bottom,right}
-                        the location of colorbar, also determining the orientation of colorbar, ['left', 'top', 'bottom', 'right'], available for 'matplotlib'
+                        the location of colorbar, also determining the
+                        orientation of colorbar, ['left', 'top', 'bottom',
+                        'right'], available for 'matplotlib'
   --legend_location {inside,outside}
-                        the location of legend box, ['inside', 'outside'], available for 'matplotlib' and 'gnuplot'
+                        the location of legend box, ['inside', 'outside'],
+                        available for 'matplotlib' and 'gnuplot'
+  --legend_ncol LEGEND_NCOL
+                        the number of columns of legend, default to 1,
+                        available for 'matplotlib'
   -m {withoutScatter,pcolormesh,3d,contour,AllAtoms,pdf,cdf}, --mode {withoutScatter,pcolormesh,3d,contour,AllAtoms,pdf,cdf}
-                        additional parameter: 'withoutScatter' will NOT show scatter plot for 'xvg_box_compare'; 'imshow', 'pcolormesh', '3d', 'contour' were used for 'xpm_show' command; 'AllAtoms' were used
-                        for 'find_center' command; 'cdf' and 'pdf' are for 'xvg_show_distribution' command;
+                        additional parameter: 'withoutScatter' will NOT show
+                        scatter plot for 'xvg_box_compare'; 'imshow',
+                        'pcolormesh', '3d', 'contour' were used for 'xpm_show'
+                        command; 'AllAtoms' were used for 'find_center'
+                        command; 'cdf' and 'pdf' are for
+                        'xvg_show_distribution' command;
   -al ADDITIONAL_LIST [ADDITIONAL_LIST ...], --additional_list ADDITIONAL_LIST [ADDITIONAL_LIST ...]
-                        additional parameters. Used to set xtitles for 'xvg_ave_bar'
+                        additional parameters. Used to set xtitles for
+                        'xvg_ave_bar'
   -ip INTERPOLATION, --interpolation INTERPOLATION
                         specify the interpolation method, default to None
   -ipf INTERPOLATION_FOLD, --interpolation_fold INTERPOLATION_FOLD
@@ -211,7 +239,15 @@ optional arguments:
 
 `-xs`, `-ys`, `-zs` 对三个维度的数据进行缩放，如`-xs 0.001` ，则所有第一个数据维度的数据都会被乘以0.001。
 
-`-smv`, `-ws`, `-cf` 这一组参数用于绘制xvg数据的滑动平均，分别是指定是否绘制滑动平均值，设置滑动平均的窗口大小，设置置信区间的可信度。
+`-xp`, `-yp`, `-zp` 对三个维度的数据进行加减操作，如`-xp 10` ，则所有第一个数据维度的数据都会被加10。
+
+`--x_numticks`, `--y_numticks`, `--z_numticks`  用于设置坐标轴刻度标签的数量，对matplotlib绘图引擎有效；至于plotly和gnuplot，则只对X和Y轴有重复数据的矩阵图绘制有效。
+
+`-smv`用于指定是否显示滑动平均值，以及显示的背景。如果`-smv`不加参数，则默认显示滑动平均值并以原始数据作为背景，等同于`-smv origin`；如果`-smv CI`则显示置信区间作为背景。
+
+`-ws`参数用于指定计算滑动平均值时的窗口大小，默认是50。
+
+`-cf`参数用于设置置信区间的可信度。
 
 `--alpha` 通常用于指定绘图的透明度。
 
@@ -225,6 +261,8 @@ optional arguments:
 
 `--legend_location`  用于指定图例的位置，目前对matplotlib和gnuplot有效。
 
+`--legend_ncol` 用于指定图例的列数，默认为1。
+
 `-m` 选择模式，对于不同的命令，该参数有不同的值可以选择。
 
 `-al` 一个附加的参数，具体的输入要视命令而定。
@@ -235,7 +273,7 @@ optional arguments:
 
 
 
-### 命令详情
+## 命令详情
 
 每一个命令的详细信息、可用参数、使用示例都可以通过`dit <command> -h`获得，比如：
 
@@ -273,6 +311,12 @@ $ dit xpm_show -h
                 specify the shrink fold number of Y values
         -zs, --zshrink (optional)
                 specify the shrink fold number of Z values
+        -xp, --xplus (optional)
+                specify the addtion number of X values
+        -yp, --yplus (optional)
+                specify the addtion number of Y values
+        -zp, --zplus (optional)
+                specify the addtion number of Z values
         -xmin, --xmin (optional)
                 specify the xmin index of xpm matrix to show
         -xmax, --xmax (optional)
@@ -305,8 +349,16 @@ $ dit xpm_show -h
                 specify the precision of Z ticklabels
         --legend_location (optional)
                 specify the location of legend, inside or outside
+        --legend_ncol (optional)
+                specify the number of columns of legends
         --colorbar_location (optional)
                 specify the location of colorbar, available for matplotlib: left, top, bottom, right
+        --x_numticks (optional)
+                specify the number of X ticklabels
+        --y_numticks (optional)
+                specify the number of Y ticklabels
+        --z_numticks (optional)
+                specify the number of Z ticklabels
 
     :Usage:
         dit xpm_show -f FEL.xpm
@@ -318,6 +370,8 @@ $ dit xpm_show -h
         dit xpm_show -f FEL.xpm -m contour -cmap jet --colorbar_location bottom
         dit xpm_show -f FEL.xpm -m contour -cmap jet -zmin 0 -zmax 20
         dit xpm_show -f DSSP.xpm -xs 0.001 -x Time(ns) --legend_location outside
+        dit xpm_show -f dm.xpm --x_numticks 5 --y_numticks 5
+        dit xpm_show -f fel.xpm --x_numticks 5 --y_numticks 5 --z_numticks 5 -m 3d
         dit xpm_show -f DSSP.xpm -eg plotly -xmin 1000 -xmax 2001 -ymin 50 -ymax 101
         dit xpm_show -f FEL.xpm -eg plotly -m 3d
         dit xpm_show -f FEL.xpm -eg plotly -m contour
@@ -330,15 +384,22 @@ $ dit xpm_show -h
 
 
 
-#### xvg_show
+### xvg_show
 
 绘制一个或多个xvg文件中的所有数据。
 
+自v0.6.0起，DIT也能支持包含无legend数据列的xvg文件的可视化了。
+
+```bash
+dit xvg_show -f rmsd.xvg gyrate.xvg
+```
 
 
-#### xvg_compare
 
-对一个或多个xvg文件中的数据进行折线图的比较；可以通过`-c`选择数据列，可以设置滑动平均。
+### xvg_compare
+
+对一个或多个xvg文件中的数据进行折线图的比较；可以通过`-c`选择数据列，可以设置计算和显示滑动平均。
+
 
 ```bash
 dit xvg_compare -f energy.xvg -c 1,3 -l LJ(SR) Coulomb(SR) -xs 0.001 -x Time(ns) -smv
@@ -363,33 +424,33 @@ plotext的图像是字符串，这里就不贴了。
 如果需要输出数据到csv的话，可以使用类如：
 
 ```bash
-dit xvg_compare -f energy.xvg -c 1,3 -l LJ(SR) Coulomb(SR) -xs 0.001 -x Time(ns) -smv -ns -csv data.csv
+dit xvg_compare -f energy.xvg -c 1,3 -l LJ(SR) Coulomb(SR) -xs 0.001 -x Time(ns) -ns -csv data.csv
 ```
 
 旧版本DIT中的`xvg2csv`和`xvg_mvave`命令在v0.5.0当中被去掉了，但是其功能完全可以由这里的`-csv`参数来实现。
 
 
 
-#### xvg_ave
+### xvg_ave
 
 计算xvg中每一列数据的的平均值和标准误差。
 
 ```bash
 $ dit xvg_ave -f rmsd.xvg -b 1000 -e 2001
 
->>>>>>>>>>>>>>                 rmsd.xvg                 <<<<<<<<<<<<<<
-----------------------------------------------------------------------
-|                            |      Average      |      Std.Err      |
-----------------------------------------------------------------------
-|         Time (ps)          |   15000.000000    |    2891.081113    |
-----------------------------------------------------------------------
-|         RMSD (nm)          |     0.388980      |     0.038187      |
-----------------------------------------------------------------------
+>>>>>>>>>>>>>>                    rmsd.xvg                    <<<<<<<<<<<<<<
+----------------------------------------------------------------------------
+|                  |     Average      |     Std.Dev      |     Std.Err      |
+----------------------------------------------------------------------------
+|    Time (ps)     |   15000.000000   |   2891.081113    |    91.378334     |
+----------------------------------------------------------------------------
+|    RMSD (nm)     |     0.388980     |     0.038187     |     0.001207     |
+----------------------------------------------------------------------------
 ```
 
 
 
-#### xvg_show_distribution
+### xvg_show_distribution
 
 呈现数据的分布，默认是展示数据列的distribution。如果将`-m`设置为`pdf`，则呈现Kernel Density Estimation；如果是`cdf`，则呈现的是Cumulative kernel Density Estimation。
 
@@ -417,7 +478,7 @@ dit xvg_show_distribution -f gyrate.xvg -c 1,2 -m cdf -eg gnuplot
 
 
 
-#### xvg_show_stack
+### xvg_show_stack
 
 对于选择的数据列，绘制堆积折线图。
 
@@ -429,7 +490,7 @@ dit xvg_show_stack -f dssp_sc.xvg -c 2-7 -xs 0.001 -x "Time (ns)"
 
 
 
-#### xvg_show_scatter
+### xvg_show_scatter
 
 选择两列或者三列数据（第三列用于着色），绘制散点图。
 
@@ -443,7 +504,7 @@ dit xvg_show_scatter -f gyrate.xvg -c 1,2,0 -zs 0.001 -z Time(ns) -eg plotly --x
 
 
 
-#### xvg_energy_compute
+### xvg_energy_compute
 
 此命令同时也存在于以前的DIT版本中，可前往参考。
 
@@ -459,7 +520,7 @@ dit xvg_energy_compute -f prolig.xvg pro.xvg lig.xvg -o results.xvg
 
 
 
-#### xvg_box_compare
+### xvg_box_compare
 
 跟`xvg_compare`类似，`xvg_box_compare`也是进行数据比较的。此命令会将用户选中的数据列以小提琴图和散点图的形式呈现出来。
 
@@ -499,7 +560,7 @@ dit xvg_box_compare -f gyrate.xvg -c 1,2,3,4 -l Gyrate Gx Gy Gz -z Time(ns) -zs 
 
 
 
-#### xvg_combine
+### xvg_combine
 
 此命令用于从多个xvg文件中读取数据并按照用户的选择组合成一个新的xvg文件。
 
@@ -509,7 +570,7 @@ dit xvg_combine -f RMSD.xvg Gyrate.xvg -c 0,1 1 -l RMSD Gyrate -x Time(ps)
 
 
 
-#### xvg_ave_bar
+### xvg_ave_bar
 
 我们假设这样一个场景：你模拟了三个不同的配体分别与蛋白的相互作用，每一个体系都进行了三次平行模拟，这样你就一共有9个模拟轨迹，相应的有9个蛋白与配体的氢键数量随时间变化的xvg文件。现在咱们需要把每一个模拟体系的稳定时期的平均氢键数量计算出来，然后做体系之间的比较。
 
@@ -525,7 +586,7 @@ dit xvg_ave_bar -f bar_0_0.xvg,bar_0_1.xvg bar_1_0.xvg,bar_1_1.xvg -c 1,2 -l MD_
 
 
 
-#### xvg_rama
+### xvg_rama
 
 `gmx rama`命令可以得到蛋白质的二面角(phi和psi)数据，`xvg_rama`命令就是把这样的数据转换成拉式图。
 
@@ -537,7 +598,7 @@ dit xvg_rama -f rama.xvg
 
 
 
-#### xpm_show
+### xpm_show
 
 此命令支持四种绘图引擎(matplotlib, plotly, gnuplot, plotext)，也有四种绘图模式(imshow, pcolormesh, 3d, contour)。四种模式matplotlib都支持，plotly和gnuplot支持pcolormesh、3d和contour；plotext就没有模式可以选择了，也只能绘制尺寸较小的图片。
 
@@ -597,7 +658,7 @@ dit xpm_show -f fel.xpm -eg gnuplot -m 3d
 
 
 
-#### xpm2csv
+### xpm2csv
 
 此命令将xpm数据以（X, Y, Z）的格式转换为csv文件。
 
@@ -607,7 +668,7 @@ dit xpm2csv -f fel.xpm -o fel.csv
 
 
 
-#### xpm2dat
+### xpm2dat
 
 此命令将xpm数据转换成M*N的dat文件。
 
@@ -617,7 +678,7 @@ dit xpm2dat -f fel.xpm -o fel.dat
 
 
 
-#### xpm_diff
+### xpm_diff
 
 对两个相同尺寸相同物理含义的xpm图片进行**减**的操作，以获得两个图片的差值。比如说可以用于呈现模拟前后残基接触矩阵的差异，或者比较不同DSSP的差异。
 
@@ -627,7 +688,7 @@ dit xpm_diff -f DCCM0.xpm DCCM1.xpm -o DCCM0-1.xpm
 
 
 
-#### xpm_merge
+### xpm_merge
 
 因着某些XPM矩阵图是沿对角线对称的，有的时候需要将两张不同xpm矩阵图沿对角线一半一半拼接起来以节省篇幅。此命令可以将两个相同尺寸，相同X和Y轴的xpm图片进行一半一半的对角线拼接。
 
@@ -637,7 +698,7 @@ dit xpm_merge -f DCCM0.xpm DCCM1.xpm -o DCCM0-1.xpm
 
 
 
-#### mdp_gen
+### mdp_gen
 
 此命令可以提供简单生物体系模拟常见的gromacs的mdp控制文件。
 
@@ -648,7 +709,7 @@ dit mdp_gen -o nvt.mdp
 
 
 
-#### show_style
+### show_style
 
 此命令会生成不同绘图引擎的格式控制文件。可以通过`-eg`指定绘图引擎，默认给出的是DIT默认使用的格式控制文件。也可以通过`-o`参数生成DIT内置的其它格式控制文件。用户只需要将自己调整过的格式控制文件放置在当前的工作目录，DIT启动之后就会加载该文件到对应的引擎并应用到绘图上。
 
@@ -663,7 +724,7 @@ dit show_style -eg plotly -o DIT_plotly.json
 
 
 
-#### find_center
+### find_center
 
 `find_center`命令主要用于寻找gro文件中组分的几何中心。
 用户可以通过指定索引文件和索引组以寻找特定组的几何中心。如果参数中不包括索引文件，则默认寻找整个gro文件所有原子的几何中心。
@@ -677,7 +738,7 @@ dit find_center -f test.gro index.ndx -m AllAtoms
 
 
 
-#### dccm_ascii
+### dccm_ascii
 
 `gmx covar`命令支持以`-ascii`的方式导出协方差矩阵的数据，此命令可以读入该数据并生成动态互相关矩阵的xpm文件。
 
@@ -687,7 +748,7 @@ dit dccm_ascii -f covar.dat -o dccm.xpm
 
 
 
-#### dssp
+### dssp
 
 该命令和DIT v0.4.8中的`dssp`命令完全不同，该命令读取GROMACS2023的`dssp`命令生成的dat文件，并处理成GROMACS2022及更老版本中常见的DSSP的xpm和sc.xvg文件。
 
@@ -698,7 +759,7 @@ dit dssp -f dssp.dat -c 1-42,1-42,1-42 -b 1000 -e 2001 -dt 10 -x "Time (ps)"
 
 
 
-#### ndx_add
+### ndx_add
 
 有的时候需要给index索引文件添加一个新的组，这里DIT可以通过`-c`和`-al`参数，给gmx的index文件新增一个组。
 
@@ -709,7 +770,7 @@ dit ndx_add -al lig mol -c 1-10-3,11-21 21-42
 
 
 
-#### ndx_split
+### ndx_split
 
 将一个index索引组均匀切分成几个组。
 
@@ -721,13 +782,13 @@ dit ndx_split -f index.ndx -al Protein 2 -o test.ndx
 
 
 
-### 绘图样式
+## 绘图样式
 
 除了上文提到的可以通过命令行参数进行部分绘图样式的调整（X和Y的精度、colormap颜色和位置、legend位置等），每种绘图引擎还有些独立的样式控制方式。
 
 对于各个绘图引擎，可以通过`dit show_style`命令得到对应的DIT默认的格式控制文件。将自己调整过的格式控制文件放置在当前工作目录，DIT就会自动读取并应用。
 
-#### matplotlib
+### matplotlib
 
 matplotlib支持使用mplstyle文件进行格式控制，请参考：https://matplotlib.org/stable/tutorials/introductory/customizing.html#the-matplotlibrc-file 。以下是DIT中默认的mplstyle：
 
@@ -767,7 +828,7 @@ axes.prop_cycle:    cycler('color', ['38A7D0', 'F67088', '66C2A5', 'FC8D62', '8D
 
 
 
-#### plotly
+### plotly
 
 plotly就厉害了，**基本上所有呈现在你眼前的东西都可以通过template文件修改**。实际上其template文件就是记录了参数和取值的json文件。
 
@@ -943,7 +1004,7 @@ plotly的格式控制json文件主要分为两块：data和layout。
 
 
 
-#### gnuplot
+### gnuplot
 
 Gnuplot，顶牛的一款科研绘图软件，开源软件的一个成功范例。
 
@@ -989,7 +1050,7 @@ set term pngcairo enhanced truecolor font "Arial, 14" fontscale 1 linewidth 2 po
 
 
 
-#### plotext
+### plotext
 
 plotext已经是我能找到的较好的可以进行命令行绘图的工具了，支持格式调整？不太可能。要是觉得不好看，把眼镜摘掉，可能图看起来就会好一些……
 

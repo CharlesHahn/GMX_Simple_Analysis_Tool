@@ -105,7 +105,7 @@ If you used DuIvyTools in your research, cite it by doi please.
 - [ ] add a command to do AND/OR set operation to hbond or sltbr existance map
 - [ ] add inter-classes to ease the use of plotting xpm or xvg data 
 
-## what's new in v0.5.4
+## what's new in v0.6.0
 
 - [x] add -xp to plus or minus X or Y data, and in xpm_show cut to adjust xtick values
 - [x] set the row of legends
@@ -127,13 +127,14 @@ If you used DuIvyTools in your research, cite it by doi please.
 4. update the xvg_show and xvg_compare to support data columns without titles
 5. add -smv origin to show original xvg data
 
-#### bug fixes
+#### bug fixed
 
 0. cleaned the none acsii characters in dssp cmd
 1. fixed the bug of calculating the confidence interval
 2. fixed the bug in dssp cmd about b==0
 3. fixed the bug about z_precision in 3d plot
 4. fixed a bug in xvg_compare csv output with different length data
+5. fixed std ste bugs in xvg_ave and xvg_ave_bar
 
 
 ## Others

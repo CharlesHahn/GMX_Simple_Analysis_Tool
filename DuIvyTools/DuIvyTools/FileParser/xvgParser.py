@@ -259,7 +259,7 @@ class XVG(log):
             column_index (int): the selected column index
 
         Returns:
-            Tuple[float]: legend, average, std.err
+            Tuple[float]: legend, average, std, ste
         """
         if (begin != None and end != None) and (begin >= end):
             self.error("start index should be less than end index")
@@ -278,7 +278,8 @@ class XVG(log):
         legend = self.data_heads[column_index]
         ave = np.average(column[begin:end:dt])
         std = np.std(column[begin:end:dt], ddof=1)
-        return legend, ave, std
+        ste = std / np.sqrt(len(column[begin:end:dt]))
+        return legend, ave, std, ste
 
     def check_column_index(self, column_index: Union[int, List]) -> None:
         """check user-input column index in or not in xpm column range

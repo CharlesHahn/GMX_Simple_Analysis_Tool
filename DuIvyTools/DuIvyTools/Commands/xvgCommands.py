@@ -527,19 +527,20 @@ class xvg_ave(Command):
         for xvgfile in self.parm.input:
             xvg = XVG(xvgfile)
             self.file = xvg
-            legends, aves, stderrs = [], [], []
+            legends, aves, stds, stes = [], [], [], []
             for c in range(len(xvg.data_heads)):
-                legend, ave, stderr = xvg.calc_ave(begin, end, dt, c)
+                legend, ave, std, ste = xvg.calc_ave(begin, end, dt, c)
                 legends.append(legend)
                 aves.append(ave)
-                stderrs.append(stderr)
-            outstr += f"\n>>>>>>>>>>>>>> {xvg.xvgfile:^40} <<<<<<<<<<<<<<\n"
-            outstr += "-" * 70 + "\n"
-            outstr += "|" + " " * 28 + "|      Average      |      Std.Err      |\n"
-            outstr += "-" * 70 + "\n"
-            for l, a, s in zip(legends, aves, stderrs):
-                outstr += f"|{l:^28}|{a:^19.6f}|{s:^19.6f}|\n"
-                outstr += "-" * 70 + "\n"
+                stds.append(std)
+                stes.append(ste)
+            outstr += f"\n>>>>>>>>>>>>>> {xvg.xvgfile:^46} <<<<<<<<<<<<<<\n"
+            outstr += "-" * 76 + "\n"
+            outstr += "|" + " " * 18 + "|     Average      |     Std.Dev      |     Std.Err      |\n"
+            outstr += "-" * 76 + "\n"
+            for l, a, s, e in zip(legends, aves, stds, stes):
+                outstr += f"|{l:^18}|{a:^18.6f}|{s:^18.6f}|{e:^18.6f}|\n"
+                outstr += "-" * 76 + "\n"
         print(outstr)
         if self.parm.output:
             outfile = self.check_output_exist(self.parm.output)
@@ -1630,9 +1631,9 @@ class xvg_ave_bar(Command):
 
         ## deal with data
         begin, end, dt = self.parm.begin, self.parm.end, self.parm.dt
-        final_aves, final_stds = [], []
+        final_aves, final_stes = [], []
         all_out = "\n" + ">" * 26 + "  detailed data  " + "<" * 26 + "\n"
-        all_out += "XVGFILE                 , LEGEND                  ,   AVERAGE   ,   STD.ERR\n"
+        all_out += "XVGFILE                 , LEGEND                  ,   AVERAGE   ,   STD.DEV      ,    STD.ERR\n"
         xtitles, legends = ["" for _ in self.parm.columns], []
         for xvgfiles in self.parm.input:
             legends.append(xvgfiles[0])
@@ -1641,18 +1642,18 @@ class xvg_ave_bar(Command):
                 xvg = XVG(xvgfile)
                 xvg.check_column_index(self.parm.columns)
                 for i, c in enumerate(self.parm.columns):
-                    head, ave, std = xvg.calc_ave(begin, end, dt, c)
+                    head, ave, std, ste = xvg.calc_ave(begin, end, dt, c)
                     all_out += (
-                        f"{xvgfile:<24}, {head:<24}, {ave:^12.6f}, {std:^12.6f}\n"
+                        f"{xvgfile:<24}, {head:<24}, {ave:^12.6f}, {std:^12.6f}, {ste:^12.6f}\n"
                     )
                     xtitles[i] = head
                     column_averages_matrix[i].append(ave)
-            column_aves, column_stds = [], []
+            column_aves, column_stes = [], []
             for lis in column_averages_matrix:
                 column_aves.append(np.average(lis))
-                column_stds.append(np.std(lis, ddof=1))
+                column_stes.append(np.std(lis, ddof=1) / np.sqrt(len(lis)))
             final_aves.append(column_aves)
-            final_stds.append(column_stds)
+            final_stes.append(column_stes)
 
         xtitles = self.remove_latex_msgs(xtitles)
         legends = self.remove_latex_msgs(legends)
@@ -1682,9 +1683,9 @@ class xvg_ave_bar(Command):
             + "|".join(f"{t:^19}" for t in xtitles)
             + "|\n"
         )
-        for i in range(len(final_stds)):
+        for i in range(len(final_stes)):
             outstr += f"|{legends[i]:<28} |"
-            outstr += "|".join([f"{std:^19.6}" for std in final_stds[i]])
+            outstr += "|".join([f"{std:^19.6}" for std in final_stes[i]])
             outstr += "|\n"
         outstr += "-" * 70 + "\n"
         print(outstr)
@@ -1698,14 +1699,14 @@ class xvg_ave_bar(Command):
                     fo.write(",".join(["{:.4f}".format(ave) for ave in final_aves[i]]))
                     fo.write("\n")
                 fo.write(",".join(["std.err"] + xtitles) + "\n")
-                for i in range(len(final_stds)):
+                for i in range(len(final_stes)):
                     fo.write(legends[i] + ",")
-                    fo.write(",".join(["{:.4f}".format(std) for std in final_stds[i]]))
+                    fo.write(",".join(["{:.4f}".format(std) for std in final_stes[i]]))
                     fo.write("\n")
 
         kwargs = {
             "data_list": final_aves,
-            "stds_list": final_stds,
+            "stds_list": final_stes,
             "xtitles": xtitles,
             "legends": legends,
             "xmin": self.parm.xmin,
