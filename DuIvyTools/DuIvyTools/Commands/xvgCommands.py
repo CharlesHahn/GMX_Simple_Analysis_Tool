@@ -1685,7 +1685,7 @@ class xvg_ave_bar(Command):
         )
         for i in range(len(final_stes)):
             outstr += f"|{legends[i]:<28} |"
-            outstr += "|".join([f"{std:^19.6}" for std in final_stes[i]])
+            outstr += "|".join([f"{ste:^19.6}" for ste in final_stes[i]])
             outstr += "|\n"
         outstr += "-" * 70 + "\n"
         print(outstr)
@@ -1701,7 +1701,7 @@ class xvg_ave_bar(Command):
                 fo.write(",".join(["std.err"] + xtitles) + "\n")
                 for i in range(len(final_stes)):
                     fo.write(legends[i] + ",")
-                    fo.write(",".join(["{:.4f}".format(std) for std in final_stes[i]]))
+                    fo.write(",".join(["{:.4f}".format(ste) for ste in final_stes[i]]))
                     fo.write("\n")
 
         kwargs = {

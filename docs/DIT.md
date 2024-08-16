@@ -402,19 +402,19 @@ dit xvg_show -f rmsd.xvg gyrate.xvg
 
 
 ```bash
-dit xvg_compare -f energy.xvg -c 1,3 -l LJ(SR) Coulomb(SR) -xs 0.001 -x Time(ns) -smv
+dit xvg_compare -f energy.xvg -c 1,3 -l "LJ(SR)" "Coulomb(SR)" -xs 0.001 -x "Time(ns)" -smv
 ```
 
 ![xvg_compare matplotlib](static/dit_xvg_compare_matplotlib.png)
 
 ```bash
-dit xvg_compare -f energy.xvg -c 1,3 -l LJ(SR) Coulomb(SR) -xs 0.001 -x Time(ns) -smv -eg plotly
+dit xvg_compare -f energy.xvg -c 1,3 -l "LJ(SR)" "Coulomb(SR)" -xs 0.001 -x "Time(ns)" -smv -eg plotly
 ```
 
 ![xvg_compare matplotlib](static/dit_xvg_compare_plotly.png)
 
 ```bash
-dit xvg_compare -f energy.xvg -c 1,3 -l LJ(SR) Coulomb(SR) -xs 0.001 -x Time(ns) -smv -eg gnuplot
+dit xvg_compare -f energy.xvg -c 1,3 -l "LJ(SR)" "Coulomb(SR)" -xs 0.001 -x "Time(ns)" -smv -eg gnuplot
 ```
 
 ![xvg_compare matplotlib](static/dit_xvg_compare_gnuplot.png)
@@ -424,7 +424,7 @@ plotext的图像是字符串，这里就不贴了。
 如果需要输出数据到csv的话，可以使用类如：
 
 ```bash
-dit xvg_compare -f energy.xvg -c 1,3 -l LJ(SR) Coulomb(SR) -xs 0.001 -x Time(ns) -ns -csv data.csv
+dit xvg_compare -f energy.xvg -c 1,3 -l "LJ(SR)" "Coulomb(SR)" -xs 0.001 -x "Time(ns)" -ns -csv data.csv
 ```
 
 旧版本DIT中的`xvg2csv`和`xvg_mvave`命令在v0.5.0当中被去掉了，但是其功能完全可以由这里的`-csv`参数来实现。
@@ -433,7 +433,7 @@ dit xvg_compare -f energy.xvg -c 1,3 -l LJ(SR) Coulomb(SR) -xs 0.001 -x Time(ns)
 
 ### xvg_ave
 
-计算xvg中每一列数据的的平均值和标准误差。
+计算xvg中每一列数据的的平均值、标准偏差和标准误差。
 
 ```bash
 $ dit xvg_ave -f rmsd.xvg -b 1000 -e 2001
@@ -495,7 +495,7 @@ dit xvg_show_stack -f dssp_sc.xvg -c 2-7 -xs 0.001 -x "Time (ns)"
 选择两列或者三列数据（第三列用于着色），绘制散点图。
 
 ```bash
-dit xvg_show_scatter -f gyrate.xvg -c 1,2,0 -zs 0.001 -z Time(ns) -eg plotly --x_precision 2 --y_precision 2
+dit xvg_show_scatter -f gyrate.xvg -c 1,2,0 -zs 0.001 -z "Time(ns)" -eg plotly --x_precision 2 --y_precision 2
 ```
 
 ![dit_xvg_show_scatter_plotly](static/dit_xvg_show_scatter_plotly.png)
@@ -525,7 +525,7 @@ dit xvg_energy_compute -f prolig.xvg pro.xvg lig.xvg -o results.xvg
 跟`xvg_compare`类似，`xvg_box_compare`也是进行数据比较的。此命令会将用户选中的数据列以小提琴图和散点图的形式呈现出来。
 
 ```bash
-dit xvg_box_compare -f gyrate.xvg -c 1,2,3,4 -l Gyrate Gx Gy Gz -z Time(ns) -zs 0.001
+dit xvg_box_compare -f gyrate.xvg -c 1,2,3,4 -l Gyrate Gx Gy Gz -z "Time(ns)" -zs 0.001
 ```
 
 ![dit_xvg_box_compare_matplotlib](static/dit_xvg_box_compare_matplotlib.png)
@@ -533,7 +533,7 @@ dit xvg_box_compare -f gyrate.xvg -c 1,2,3,4 -l Gyrate Gx Gy Gz -z Time(ns) -zs 
 
 
 ```bash
-dit xvg_box_compare -f gyrate.xvg -c 1,2,3,4 -l Gyrate Gx Gy Gz -z Time(ns) -zs 0.001 -eg plotly
+dit xvg_box_compare -f gyrate.xvg -c 1,2,3,4 -l Gyrate Gx Gy Gz -z "Time(ns)" -zs 0.001 -eg plotly
 ```
 
 ![dit_xvg_box_compare_plotly](static/dit_xvg_box_compare_plotly.png)
@@ -541,7 +541,7 @@ dit xvg_box_compare -f gyrate.xvg -c 1,2,3,4 -l Gyrate Gx Gy Gz -z Time(ns) -zs 
 
 
 ```bash
-dit xvg_box_compare -f gyrate.xvg -c 1,2,3,4 -l Gyrate Gx Gy Gz -z Time(ns) -zs 0.001 -eg gnuplot -ymin 2
+dit xvg_box_compare -f gyrate.xvg -c 1,2,3,4 -l Gyrate Gx Gy Gz -z "Time(ns)" -zs 0.001 -eg gnuplot -ymin 2
 ```
 
 ![dit_xvg_box_compare_gnuplot](static/dit_xvg_box_compare_gnuplot.png)
@@ -551,7 +551,7 @@ dit xvg_box_compare -f gyrate.xvg -c 1,2,3,4 -l Gyrate Gx Gy Gz -z Time(ns) -zs 
 如果想要不显示散点图，只需要设置`-m withoutScatter`即可：
 
 ```bash
-dit xvg_box_compare -f gyrate.xvg -c 1,2,3,4 -l Gyrate Gx Gy Gz -z Time(ns) -zs 0.001 -m withoutScatter 
+dit xvg_box_compare -f gyrate.xvg -c 1,2,3,4 -l Gyrate Gx Gy Gz -z "Time(ns)" -zs 0.001 -m withoutScatter 
 ```
 
 ![dit_xvg_box_compare_matplotlib](static/dit_xvg_box_compare_matplotlib2.png)
@@ -565,7 +565,7 @@ dit xvg_box_compare -f gyrate.xvg -c 1,2,3,4 -l Gyrate Gx Gy Gz -z Time(ns) -zs 
 此命令用于从多个xvg文件中读取数据并按照用户的选择组合成一个新的xvg文件。
 
 ```bash
-dit xvg_combine -f RMSD.xvg Gyrate.xvg -c 0,1 1 -l RMSD Gyrate -x Time(ps)
+dit xvg_combine -f RMSD.xvg Gyrate.xvg -c 0,1 1 -l RMSD Gyrate -x "Time(ps)"
 ```
 
 
@@ -656,6 +656,14 @@ dit xpm_show -f fel.xpm -eg gnuplot -m 3d
 
 ![dit_xpm_show_fel7](static/dit_xpm_show_fel7.png)
 
+
+DIT v0.6.0开始还支持用户自定义刻度数目，例如我们将XY轴的刻度设置为5，同时将第三数据维度，也即这里的colorbar的刻度也设置成5：
+
+```bash
+dit xpm_show -f dccm.xpm --x_numticks 5 --y_numticks 5 --z_numticks 5 -zmin -1
+```
+
+![dit_xpm_show_fel7](static/dit_xpm_show_8.png)
 
 
 ### xpm2csv
@@ -813,6 +821,7 @@ font.family:        Arial
 font.size:          12
 image.cmap:         coolwarm
 image.aspect:       auto # for fitting into axes
+# figure.figsize:     8, 6
 figure.dpi:         100
 savefig.dpi:        300
 axes.prop_cycle:    cycler('color', ['38A7D0', 'F67088', '66C2A5', 'FC8D62', '8DA0CB', 'E78AC3', 'A6D854', 'FFD92F', 'E5C494', 'B3B3B3', '66C2A5', 'FC8D62'])
@@ -1058,7 +1067,7 @@ plotext已经是我能找到的较好的可以进行命令行绘图的工具了�
 
 ## 程序模块
 
-DIT以前的版本中，基本上每个命令就是单独的一个类，杂糅了命令的逻辑与绘图的部分在里面，同时还交织了用户参数的解析，基本上很难另外编程去调用，除了原本文件解析的模块。在DIT v0.5.0的版本中，这个问题得到了一定的改善。首先是绘图完全独立了出来，命令逻辑虽然不可避免地需要处理用户参数，但是现在有了统一的用户参数接口，所以也还算方便。命令的帮助也放弃了原来的独立模块思路，转而使用类的doc来实现，这样的话新增命令会方便很多。
+DIT v0.5.0 以前的版本中，基本上每个命令就是单独的一个类，杂糅了命令的逻辑与绘图的部分在里面，同时还交织了用户参数的解析，基本上很难另外编程去调用，除了原本文件解析的模块。在DIT v0.5.0的版本中，这个问题得到了一定的改善。首先是绘图完全独立了出来，命令逻辑虽然不可避免地需要处理用户参数，但是现在有了统一的用户参数接口，所以也还算方便。命令的帮助也放弃了原来的独立模块思路，转而使用类的doc来实现，这样的话新增命令会方便很多。
 
 **文件解析**
 

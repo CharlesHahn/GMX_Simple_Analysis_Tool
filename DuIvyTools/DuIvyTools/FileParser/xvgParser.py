@@ -41,7 +41,7 @@ class XVG(log):
         self.column_num: int = 0
         self.row_num: int = 0
         self.data_heads: List[str] = []
-        self.data_columns: List[Union(float, str)] = []
+        self.data_columns: List[float, str] = []
         self.data_noheads: List[str] = []
 
         if new_file:
