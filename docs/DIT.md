@@ -51,7 +51,7 @@ pip install DuIvyTools -i https://pypi.tuna.tsinghua.edu.cn/simple
 /**    /**/**  /**/**/**   /** //***      /** **////** **////**/** **////
 /**    /**/**  /**/**//** /**   /**       /**/**   /**/**   /**/**//*****
 /**    ** /**  /**/** //****    **        /**/**   /**/**   /**/** /////**
-/*******  //******/**  //**    **         /**//****** //****** *** ******
+/*v0.6.0  //******/**  //**    **         /**//****** //****** *** ******
 ///////    ////// //    //    //          //  //////   ////// /// //////
 
 DuIvyTools is a simple analysis and visualization tool for GROMACS result files written by 杜艾维 (https://github.com/CharlesHahn/DuIvyTools).

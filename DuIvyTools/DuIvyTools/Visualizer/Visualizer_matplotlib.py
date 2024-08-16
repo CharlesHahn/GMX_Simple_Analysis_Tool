@@ -858,6 +858,9 @@ class ThreeDimensionMatplotlib(ParentMatplotlib):
                 location=kwargs["colorbar_location"],
                 pad=0.2,
             )
+            ax.zaxis.set_major_formatter(
+                FormatStrFormatter(f"""%.{kwargs["z_precision"]}f""")
+            )
         else:
             cbar = plt.colorbar(
                 im,
@@ -869,12 +872,9 @@ class ThreeDimensionMatplotlib(ParentMatplotlib):
         if kwargs["z_numticks"] != None:
             cbar.locator = LinearLocator(numticks=kwargs["z_numticks"])
             cbar.update_ticks()
+            ax.zaxis.set_major_locator(LinearLocator(numticks=kwargs["z_numticks"]))
 
         ax.set_zlabel(kwargs["zlabel"])
-        ax.zaxis.set_major_formatter(
-            FormatStrFormatter(f"""%.{kwargs["z_precision"]}f""")
-        )
-        ax.zaxis.set_major_locator(LinearLocator(numticks=kwargs["z_numticks"]))
         self.set_xytick_precision_xyt_label(**kwargs)
 
 
