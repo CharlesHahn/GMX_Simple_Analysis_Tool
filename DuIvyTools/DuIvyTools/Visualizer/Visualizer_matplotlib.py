@@ -182,6 +182,9 @@ class LineMatplotlib(ParentMatplotlib):
             plt.xlim(kwargs["xmin"], kwargs["xmax"])
         if kwargs["ymin"] != None or kwargs["ymax"] != None:
             plt.ylim(kwargs["ymin"], kwargs["ymax"])
+        
+        if "legend_ncol" not in kwargs:
+            kwargs["legend_ncol"] = 1
 
         if kwargs["legend_location"] == "outside":
             plt.legend(
@@ -283,6 +286,9 @@ class ScatterMatplotlib(ParentMatplotlib):
         if kwargs["ymin"] != None or kwargs["ymax"] != None:
             plt.ylim(kwargs["ymin"], kwargs["ymax"])
 
+        if "legend_ncol" not in kwargs:
+            kwargs["legend_ncol"] = 1
+
         if kwargs["legend_location"] == "outside":
             plt.legend(
                 bbox_to_anchor=(1.02, 1.00),
@@ -340,6 +346,9 @@ class StackMatplotlib(ParentMatplotlib):
             plt.xlim(kwargs["xmin"], kwargs["xmax"])
         if kwargs["ymin"] != None or kwargs["ymax"] != None:
             plt.ylim(kwargs["ymin"], kwargs["ymax"])
+
+        if "legend_ncol" not in kwargs:
+            kwargs["legend_ncol"] = 1
 
         if kwargs["legend_location"] == "outside":
             plt.legend(
@@ -402,6 +411,9 @@ class BarMatplotlib(ParentMatplotlib):
             plt.xlim(kwargs["xmin"], kwargs["xmax"])
         if kwargs["ymin"] != None or kwargs["ymax"] != None:
             plt.ylim(kwargs["ymin"], kwargs["ymax"])
+
+        if "legend_ncol" not in kwargs:
+            kwargs["legend_ncol"] = 1
 
         if kwargs["legend_location"] == "outside":
             plt.legend(
@@ -629,6 +641,9 @@ class ImshowMatplotlib(ParentMatplotlib):
     def __init__(self, **kwargs) -> None:
         super().__init__()
 
+        if "legend_ncol" not in kwargs:
+            kwargs["legend_ncol"] = 1
+
         if kwargs["fig_type"] != "Continuous":
             color_map = mplcolors.ListedColormap(kwargs["color_list"])
             im = plt.imshow(
@@ -717,6 +732,9 @@ class PcolormeshMatplotlib(ParentMatplotlib):
 
         if len(kwargs["data_list"]) <= 1 or len(kwargs["data_list"][0]) <= 1:
             self.error("!!! pcolormesh unable to proper deal with 1 dimension data !!!")
+        if "legend_ncol" not in kwargs:
+            kwargs["legend_ncol"] = 1
+
         # to avoid repeat series in X and Y data
         xdata_index = [i for i in range(len(kwargs["xdata_list"]))]
         ydata_index = [i for i in range(len(kwargs["ydata_list"]))]
